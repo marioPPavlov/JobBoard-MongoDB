@@ -1,0 +1,11 @@
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\JobBoard.Data.deps.json
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\JobBoard.Data.dll
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.csprojResolveAssemblyReference.cache
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.csproj.CoreCompileInputs.cache
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.AssemblyInfoInputs.cache
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.AssemblyInfo.cs
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.xml
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\JobBoard.Data.pdb
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.dll
+C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.pdb

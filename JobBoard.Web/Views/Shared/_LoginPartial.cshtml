@@ -1,8 +1,8 @@
 @using Microsoft.AspNetCore.Identity
-@using JobBoard.Web.Models
+@using JobBoard.Data.Models
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<MongoUser> SignInManager
+@inject UserManager<MongoUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {

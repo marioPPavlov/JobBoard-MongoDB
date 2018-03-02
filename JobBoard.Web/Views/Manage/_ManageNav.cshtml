@@ -1,5 +1,5 @@
 ﻿@using JobBoard.Web.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<MongoUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

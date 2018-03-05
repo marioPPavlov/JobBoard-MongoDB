@@ -1,52 +1,41 @@
-﻿// ReSharper disable once CheckNamespace - Common convention to locate extensions in Microsoft namespaces for simplifying autocompletion as a consumer.
+﻿using global::MongoDB.Driver;
+using JobBoard.Data.Models;
+using JobBoard.Data.Models.MongoDB.Identity;
+using JobBoard.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace JobBoard.Web.Infrastructure.Extensions
 {
-    using global::MongoDB.Driver;
-    using JobBoard.Data.Models.MongoDB.Identity;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
-    using System;
-
     public static class ServiceCollectionExtensions 
     {
-		/// <summary>
-		///     This method only registers mongo stores, you also need to call AddIdentity.
-		///     Consider using AddIdentityWithMongoStores.
-		/// </summary>
-		/// <param name="builder"></param>
-		/// <param name="connectionString">Must contain the database name</param>
-		public static IdentityBuilder RegisterMongoStores<TUser, TRole>(this IdentityBuilder builder, string connectionString)
+        public static IdentityBuilder RegisterMongoStores<TUser, TRole>(this IdentityBuilder builder, IConfiguration configuration)
 			where TRole : MongoRole
-			where TUser : MongoUser
+			where TUser : User
 		{
-			var url = new MongoUrl(connectionString);
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            var url = new MongoUrl(connectionString);
 			var client = new MongoClient(url);
+            var database = client.GetDatabase(configuration.GetSection("ConnectionStrings:DatabaseName").Value);
 
-           if (url.DatabaseName == null)
+            if(database == null)
             {
-            	throw new ArgumentException("Your connection string must contain a database name", connectionString);
+                throw new ArgumentException("Your connection string must contain a database name", connectionString);
             }
-            var database = client.GetDatabase(url.DatabaseName);
             return builder.RegisterMongoStores(
 				p => database.GetCollection<TUser>("users"),
 				p => database.GetCollection<TRole>("roles"));
 		}
 
-		/// <summary>
-		///     If you want control over creating the users and roles collections, use this overload.
-		///     This method only registers mongo stores, you also need to call AddIdentity.
-		/// </summary>
-		/// <typeparam name="TUser"></typeparam>
-		/// <typeparam name="TRole"></typeparam>
-		/// <param name="builder"></param>
-		/// <param name="usersCollectionFactory"></param>
-		/// <param name="rolesCollectionFactory"></param>
 		public static IdentityBuilder RegisterMongoStores<TUser, TRole>(this IdentityBuilder builder,
 			Func<IServiceProvider, IMongoCollection<TUser>> usersCollectionFactory,
 			Func<IServiceProvider, IMongoCollection<TRole>> rolesCollectionFactory)
 			where TRole : MongoRole
-			where TUser : MongoUser
+			where TUser : User
 		{
 			if (typeof(TUser) != builder.UserType)
 			{
@@ -68,30 +57,35 @@ namespace JobBoard.Web.Infrastructure.Extensions
 			return builder;
 		}
 
-		/// <summary>
-		///     This method registers identity services and MongoDB stores using the IdentityUser and IdentityRole types.
-		/// </summary>
-		/// <param name="services"></param>
-		/// <param name="connectionString">Connection string must contain the database name</param>
-        public static IdentityBuilder AddMongoIdentity(this IServiceCollection services, string connectionString, Action<IdentityOptions> setupAction)
+        public static IdentityBuilder AddMongoIdentity(this IServiceCollection services, IConfiguration configuration, Action<IdentityOptions> setupAction)
         {
-            return services.AddMongoIdentityUsingCustomTypes<MongoUser, MongoRole>(connectionString, setupAction);
+            return services.AddMongoIdentityUsingCustomTypes<User, MongoRole>(configuration, setupAction);
         }
 
-        /// <summary>
-        ///     This method allows you to customize the user and role type when registering identity services
-        ///     and MongoDB stores.
-        /// </summary>
-        /// <typeparam name="TUser"></typeparam>
-        /// <typeparam name="TRole"></typeparam>
-        /// <param name="services"></param>
-        /// <param name="connectionString">Connection string must contain the database name</param>
-        public static IdentityBuilder AddMongoIdentityUsingCustomTypes<TUser, TRole>(this IServiceCollection services, string connectionString, Action<IdentityOptions> options)
-          where TUser : MongoUser
+        public static IdentityBuilder AddMongoIdentityUsingCustomTypes<TUser, TRole>(this IServiceCollection services,IConfiguration configuration, Action<IdentityOptions> options)
+          where TUser : User
           where TRole : MongoRole
         {
             return services.AddIdentity<TUser, TRole>(options)    
-                .RegisterMongoStores<TUser, TRole>(connectionString);
+                .RegisterMongoStores<TUser, TRole>(configuration);
+        }
+
+        public static IServiceCollection AddDomainServices(
+           this IServiceCollection services)
+        {
+            Assembly
+                .GetAssembly(typeof(IService))
+                .GetTypes()
+                .Where(t => t.IsClass && t.GetInterfaces().Any(i => i.Name == $"I{t.Name}"))
+                .Select(t => new
+                {
+                    Interface = t.GetInterface($"I{t.Name}"),
+                    Implementation = t
+                })
+                .ToList()
+                .ForEach(s => services.AddTransient(s.Interface, s.Implementation));
+
+            return services;
         }
     }
 }

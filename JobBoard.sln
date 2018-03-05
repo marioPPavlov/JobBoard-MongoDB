@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard.Web", "JobBoard.Web\JobBoard.Web.csproj", "{786168B3-6FB7-4E7F-976A-4AF38A0617B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobBoard.Web", "JobBoard.Web\JobBoard.Web.csproj", "{786168B3-6FB7-4E7F-976A-4AF38A0617B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard.Data", "JobBoard.Data\JobBoard.Data.csproj", "{6DAAB947-99D9-4EAE-8D11-1F814B5BBD3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobBoard.Data", "JobBoard.Data\JobBoard.Data.csproj", "{6DAAB947-99D9-4EAE-8D11-1F814B5BBD3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard.Services", "JobBoard.Services\JobBoard.Services.csproj", "{66FD7A21-496D-442F-86AF-C6C7489952E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard.Common", "JobBoard.Common\JobBoard.Common.csproj", "{D150A08B-BECB-4042-B5BB-BAE4A28AE8F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{6DAAB947-99D9-4EAE-8D11-1F814B5BBD3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DAAB947-99D9-4EAE-8D11-1F814B5BBD3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DAAB947-99D9-4EAE-8D11-1F814B5BBD3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FD7A21-496D-442F-86AF-C6C7489952E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FD7A21-496D-442F-86AF-C6C7489952E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FD7A21-496D-442F-86AF-C6C7489952E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FD7A21-496D-442F-86AF-C6C7489952E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D150A08B-BECB-4042-B5BB-BAE4A28AE8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D150A08B-BECB-4042-B5BB-BAE4A28AE8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D150A08B-BECB-4042-B5BB-BAE4A28AE8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D150A08B-BECB-4042-B5BB-BAE4A28AE8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

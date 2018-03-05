@@ -30,7 +30,7 @@ namespace JobBoard.Data.Models.MongoDB.Identity
 			IUserLockoutStore<TUser>,
 			IQueryableUserStore<TUser>,
 			IUserAuthenticationTokenStore<TUser>
-		where TUser : MongoUser
+		where TUser : User
 	{
 		private readonly IMongoCollection<TUser> _Users;
 

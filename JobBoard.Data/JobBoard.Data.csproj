@@ -8,6 +8,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.MongoDB" Version="1.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
   </ItemGroup>
 
@@ -15,6 +16,14 @@
     <Reference Include="Microsoft.AspNetCore.Mvc.Core">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.core\2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Jobs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JobBoard.Common\JobBoard.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@
 
 		public virtual string UserName { get; set; }
 
-		public virtual string NormalizedUserName { get; set; }
+        public virtual string NormalizedUserName { get; set; }
 
 		/// <summary>
 		///     A random value that must change whenever a users credentials change

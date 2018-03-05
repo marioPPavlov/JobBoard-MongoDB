@@ -1,10 +1,14 @@
-﻿using JobBoard.Web.Infrastructure.Extensions;
+﻿using AutoMapper;
+using JobBoard.Data;
+using JobBoard.Web.Infrastructure.Extensions;
 using JobBoard.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace JobBoard.Web
 {
@@ -26,8 +30,10 @@ namespace JobBoard.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Register identity framework services and also Mongo storage. 
-            services.AddMongoIdentity(Configuration.GetConnectionString("DefaultConnection"),
+            services.AddScoped<JobBoardDbContext>();
+
+            // Register identity framework services and also Mongo storage.   
+            services.AddMongoIdentity(Configuration,
                     options =>
                     {
                         options.Password.RequireDigit = false;
@@ -38,6 +44,10 @@ namespace JobBoard.Web
                         options.Password.RequiredLength = 3;
                     })
                     .AddDefaultTokenProviders();
+
+
+            services.AddDomainServices();
+            services.AddAutoMapper();
 
             services.AddMvc();
 
@@ -61,12 +71,19 @@ namespace JobBoard.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseCreatedRoles();
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                 name: "Candidate",
+                 template: "Candidate/Cvs",
+                 defaults: new { area = "Candidate", controller = "Cvs", action = "Create" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

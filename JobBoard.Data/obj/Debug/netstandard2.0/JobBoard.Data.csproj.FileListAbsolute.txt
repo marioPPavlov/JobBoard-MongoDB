@@ -9,3 +9,5 @@ C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data
 C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\JobBoard.Data.pdb
 C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.dll
 C:\Users\Mario\Documents\visual studio 2017\Projects\2018\JobBoard\JobBoard.Data\obj\Debug\netstandard2.0\JobBoard.Data.pdb
+C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\JobBoard.Common.dll
+C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Data\bin\Debug\netstandard2.0\JobBoard.Common.pdb

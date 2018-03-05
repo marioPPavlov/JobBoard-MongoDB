@@ -1,5 +1,5 @@
-﻿using JobBoard.Data.Models.AccountViewModels;
-using JobBoard.Data.Models.MongoDB.Identity;
+﻿using JobBoard.Data.Models;
+using JobBoard.Data.Models.AccountViewModels;
 using JobBoard.Web.Infrastructure.Extensions;
 using JobBoard.Web.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -10,21 +10,21 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using static JobBoard.Web.Infrastructure.WebConstants;
 namespace JobBoard.Web.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly UserManager<MongoUser> _userManager;
-        private readonly SignInManager<MongoUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
-            UserManager<MongoUser> userManager,
-            SignInManager<MongoUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
@@ -217,7 +217,8 @@ namespace JobBoard.Web.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new MongoUser { UserName = model.Email, Email = model.Email };
+
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -229,7 +230,19 @@ namespace JobBoard.Web.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+
+                    string role = (model.IsEmployer == true) ? EmployerRole : CandidateRole;
+                    await _userManager.AddToRoleAsync(user, role);
+
+                    if(role == CandidateRole)
+                    {
+                        return RedirectToAction("Create", "Cvs", new { area = CandidateArea });
+                    }
+                    else
+                    {
+                        return RedirectToAction("List", "Jobs", new { area = EmployersArea });
+                    }
+
                 }
                 AddErrors(result);
             }
@@ -307,7 +320,7 @@ namespace JobBoard.Web.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new MongoUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

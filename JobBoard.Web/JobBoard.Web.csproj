@@ -5,8 +5,16 @@
     <UserSecretsId>aspnet-JobBoard.Web-2C2CB337-E8F8-49DE-B6AB-B5F6E5C691EA</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
@@ -23,12 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\MongoDB\" />
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\JobBoard.Common\JobBoard.Common.csproj" />
+    <ProjectReference Include="..\JobBoard.Data\JobBoard.Data.csproj" />
+    <ProjectReference Include="..\JobBoard.Services\JobBoard.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JobBoard.Data\JobBoard.Data.csproj" />
+    <Folder Include="Areas\Employer\Views\" />
   </ItemGroup>
 
 </Project>

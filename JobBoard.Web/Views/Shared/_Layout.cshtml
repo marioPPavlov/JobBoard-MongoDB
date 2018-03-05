@@ -30,9 +30,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="Candidate" asp-controller="Cvs" asp-action="Create">Create</a></li>
+                    <li><a asp-area="Candidate" asp-controller="Jobs" asp-action="All">All</a></li>
+                    <li><a asp-area="Candidate" asp-controller="Cvs" asp-action="List">My CVs</a></li>
+                    <li><a asp-area="Employers" asp-controller="Employers" asp-action="Create">Create Job</a></li>
+                    <li><a asp-area="Employers" asp-controller="Employers" asp-action="JobsList">My Job</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -42,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - JobBoard.Web</p>
+            <p>&copy; 2017 - JobBoard.Web</p>
         </footer>
     </div>
 

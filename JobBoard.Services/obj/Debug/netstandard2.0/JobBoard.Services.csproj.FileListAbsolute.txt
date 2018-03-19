@@ -13,3 +13,5 @@ C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Serv
 C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.pdb
 C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Common.dll
 C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Common.pdb
+C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Services\bin\Debug\netstandard2.0\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+C:\Users\Mario\Documents\Visual Studio 2017\Projects\2018\JobBoard\JobBoard.Services\bin\Debug\netstandard2.0\Microsoft.AspNetCore.Mvc.ViewFeatures.xml

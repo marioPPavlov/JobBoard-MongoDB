@@ -5,10 +5,9 @@ using JobBoard.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace JobBoard.Web
 {
@@ -43,16 +42,16 @@ namespace JobBoard.Web
                         options.Password.RequiredUniqueChars = 0;
                         options.Password.RequiredLength = 3;
                     })
-                    .AddDefaultTokenProviders();
-
+                    .AddDefaultTokenProviders(); 
 
             services.AddDomainServices();
             services.AddAutoMapper();
-
-            services.AddMvc();
-
-            // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
         }
 
@@ -79,14 +78,29 @@ namespace JobBoard.Web
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                 name: "Candidate",
-                 template: "Candidate/Cvs",
-                 defaults: new { area = "Candidate", controller = "Cvs", action = "Create" });
+
+                //    routes.MapRoute(
+                //            CandidateEdit,
+                //            "{area}/{controller}/Edit/PersonalInfo/{id}",
+                //             new { area = CandidateArea, controller = "Cvs", action = nameof(CvsController.PersonalInfo) });
+
+                //routes.MapRoute(
+                //            CandidateAdd,
+                //            "{area}/{controller}/Add/{action}/{id}",
+                //             new { area = CandidateArea, controller = "Cvs", action = nameof(CvsController.Work) });
+
+                //routes.MapRoute(
+                //    CandidateCreate,
+                //    "{area}/{controller}/Create",
+                //    new { area = CandidateArea, controller = nameof(CvsController), action = nameof(CvsController.Create) });
 
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    "area-default",
+                    "{area=Candidate}/{controller=Work}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

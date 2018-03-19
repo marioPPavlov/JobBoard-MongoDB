@@ -1,4 +1,7 @@
-﻿using JobBoard.Services.Candidates.Models.Cvs;
+﻿using JobBoard.Data.Models.Cvs;
+using JobBoard.Services.Candidates.Models.Cvs;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,18 +11,15 @@ namespace JobBoard.Services.Candidates
 {
     public interface ICvService
     {
-        Task Add(CvCreateModel model, string userId);
-        //Task<IEnumerable<CvListingModel>> CvList(string userId);
-        //Task<CvDetailsModel> DetailsById(int id);
-        //Task<CvEditModel> FindById(int id);
-        //Task<bool> Edit(int id, CvEditModel form);
-        //string GetUserIdByCvId(int id);
+        string GetUserIdByCvId(string id);
+        string GetLoggedUser();
+        bool CvBelongsToLoggedUser(string cvId);
 
-        //Task<PersonalInfoEditModel> PersonalInfoById(int id);
-        //Task<bool> PersonalInfoEditSave(int id, PersonalInfoEditModel form);
+        string Add(CvCreateModel model, string userId);
 
-        //Task<bool> WorkCreate(WorkCreateModel model, int cvId);
-        //Task<WorkEditModel> WorkById(int id);
-        //Task<bool> WorkEditSave(int id, WorkEditModel form);
+
+        PersonalInfoEditModel GetPersonalInfoById(string id);
+
+        void UpdatePersonalInfo(string id, PersonalInfoEditModel form);    
     }
 }

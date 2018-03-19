@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using static JobBoard.Web.Infrastructure.WebConstants;
+using static JobBoard.Web.Infrastructure.Constants.Web;
 namespace JobBoard.Web.Controllers
 {
     [Authorize]

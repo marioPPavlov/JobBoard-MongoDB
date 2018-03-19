@@ -76,7 +76,7 @@ namespace JobBoard.Web.Infrastructure.Extensions
             Assembly
                 .GetAssembly(typeof(IService))
                 .GetTypes()
-                .Where(t => t.IsClass && t.GetInterfaces().Any(i => i.Name == $"I{t.Name}"))
+                .Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Any(i => i.Name == $"I{t.Name}"))
                 .Select(t => new
                 {
                     Interface = t.GetInterface($"I{t.Name}"),

@@ -30,11 +30,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="Candidate" asp-controller="Cvs" asp-action="Create">Create</a></li>
-                    <li><a asp-area="Candidate" asp-controller="Jobs" asp-action="All">All</a></li>
-                    <li><a asp-area="Candidate" asp-controller="Cvs" asp-action="List">My CVs</a></li>
-                    <li><a asp-area="Employers" asp-controller="Employers" asp-action="Create">Create Job</a></li>
-                    <li><a asp-area="Employers" asp-controller="Employers" asp-action="JobsList">My Job</a></li>
+                    <li>@Html.RefactorLink("Create", nameof(CvsController.Create), nameof(CvsController))</li>
+                    <li>@Html.RefactorLink("Edit Work^^", nameof(WorksController.Edit), nameof(WorksController), new { id = "5aabfd298aaae02abc9c0db3" })</li>it
+                    <li>@Html.RefactorLink("Edit Work^^", nameof(EducationsController.Edit), nameof(EducationsController), new { id = "5aabfd298aaae02abc9c0db3" })</li>it     
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

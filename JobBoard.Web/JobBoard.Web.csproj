@@ -37,9 +37,4 @@
     <ProjectReference Include="..\JobBoard.Services\JobBoard.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Candidate\Views\Cvs\Edit\" />
-    <Folder Include="Areas\Employer\Views\" />
-  </ItemGroup>
-
 </Project>

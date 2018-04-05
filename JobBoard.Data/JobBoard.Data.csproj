@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Jobs\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\JobBoard.Common\JobBoard.Common.csproj" />
   </ItemGroup>
 

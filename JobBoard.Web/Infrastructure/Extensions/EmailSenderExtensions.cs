@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using JobBoard.Services.Default;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using JobBoard.Web.Services;
 
 namespace JobBoard.Web.Infrastructure.Extensions
 {

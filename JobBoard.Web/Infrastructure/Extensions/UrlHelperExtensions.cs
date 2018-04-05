@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JobBoard.Web.Controllers;
+using JobBoard.Web.Areas.Home.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobBoard.Web.Infrastructure.Extensions

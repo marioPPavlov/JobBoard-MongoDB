@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using JobBoard.Data;
+using JobBoard.Services.Default;
 using JobBoard.Web.Infrastructure.Extensions;
-using JobBoard.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -78,29 +78,9 @@ namespace JobBoard.Web
 
             app.UseMvc(routes =>
             {
-
-                //    routes.MapRoute(
-                //            CandidateEdit,
-                //            "{area}/{controller}/Edit/PersonalInfo/{id}",
-                //             new { area = CandidateArea, controller = "Cvs", action = nameof(CvsController.PersonalInfo) });
-
-                //routes.MapRoute(
-                //            CandidateAdd,
-                //            "{area}/{controller}/Add/{action}/{id}",
-                //             new { area = CandidateArea, controller = "Cvs", action = nameof(CvsController.Work) });
-
-                //routes.MapRoute(
-                //    CandidateCreate,
-                //    "{area}/{controller}/Create",
-                //    new { area = CandidateArea, controller = nameof(CvsController), action = nameof(CvsController.Create) });
-
-                routes.MapRoute(
-                    "area-default",
-                    "{area=Candidate}/{controller=Work}/{action=Index}/{id?}");
-
                 routes.MapRoute(
                     "default",
-                    "{controller=Home}/{action=Index}/{id?}");
+                    "{area=Candidate}/{controller=Jobs}/{action=All}");
             });
         }
     }

@@ -1,0 +1,52 @@
+﻿@model EducationListModel
+
+@{
+    ViewData["Title"] = "Education";
+}
+
+<h2>Educations</h2>
+
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{ List<EducationModel> educations = Model.Educations; }
+            @for(int i = 0; i < educations.Count; i++)
+            {
+            <div class="form-group">
+                <label asp-for=@educations[i].Qualification class="control-label"></label>
+                <input asp-for=@educations[i].Qualification class="form-control" />
+                <span asp-validation-for=@educations[i].Qualification class=" text-danger"></span>
+                @(Html.AreaLink<EducationsController>("Remove^^", nameof(EducationsController.Remove), nameof(EducationsController), new { id = ViewContext.RouteData.Values["id"] }))
+            </div>
+                @*<div class="form-group">
+                        <label asp-for="Employer" class="control-label"></label>
+                        <input asp-for="Employer" class="form-control" />
+                        <span asp-validation-for="Employer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateFrom" class="control-label"></label>
+                        <input asp-for="DateFrom" class="form-control" />
+                        <span asp-validation-for="DateFrom" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateTo" class="control-label"></label>
+                        <input asp-for="DateTo" class="form-control" />
+                        <span asp-validation-for="DateTo" class="text-danger"></span>
+                    </div>*@
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @(Html.AreaLink<EducationsController>("Add", nameof(EducationsController.Add), nameof(EducationsController), new { id = ViewContext.RouteData.Values["id"] }))
+    <a asp-action="Index">Back to List</a>
+</div>
+

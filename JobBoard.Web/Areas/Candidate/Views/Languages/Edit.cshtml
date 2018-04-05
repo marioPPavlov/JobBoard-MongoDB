@@ -1,0 +1,39 @@
+﻿@model LanguageListModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Languages</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @{ List<LanguageModel> works = Model.Languages; }
+            @for(int i = 0; i < works.Count; i++)
+            {
+                <div class="form-group">
+                    <label asp-for=@works[i].Name class="control-label"></label>
+                    <input asp-for=@works[i].Name class="form-control" />
+                    <span asp-validation-for=@works[i].Name class=" text-danger"></span>
+                    <div>
+                        @(Html.AreaLink<LanguagesController>("Remove", nameof(LanguagesController.Remove), new { id = ViewContext.RouteData.Values["id"] }))
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @(Html.AreaLink<LanguagesController>("Add", nameof(LanguagesController.Add), new { id = ViewContext.RouteData.Values["id"] }))  
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,59 @@
+﻿@model WorkListModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Work</h2>
+
+<h4>WorkModel</h4>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @{ List<WorkModel> works = Model.Works; }
+            @for(int i = 0; i < works.Count; i++)
+    {
+        <div class="form-group">
+            <label asp-for=@works[i].Position class="control-label"></label>
+            <input asp-for=@works[i].Position class="form-control" />
+            <span asp-validation-for=@works[i].Position class=" text-danger"></span>
+            <div>
+                @(Html.AreaLink<WorksController>("Remove", nameof(WorksController.Remove), new { id = ViewContext.RouteData.Values["id"] }))
+            </div>
+
+            @*<a href="@Url.RouteUrl(nameof(WorkController.RemoveWork), new { id = ViewContext.RouteData.Values["id"], number = i })">Remove Work Entry</a>*@
+        </div>
+        @*<div class="form-group">
+        <label asp-for="Employer" class="control-label"></label>
+        <input asp-for="Employer" class="form-control" />
+        <span asp-validation-for="Employer" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateFrom" class="control-label"></label>
+        <input asp-for="DateFrom" class="form-control" />
+        <span asp-validation-for="DateFrom" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateTo" class="control-label"></label>
+        <input asp-for="DateTo" class="form-control" />
+        <span asp-validation-for="DateTo" class="text-danger"></span>
+    </div>*@
+
+}
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @(Html.AreaLink<WorksController>("Add", nameof(WorksController.Add), new { id = ViewContext.RouteData.Values["id"] }))
+    <a asp-action="Index">Back to List</a>
+</div>
+

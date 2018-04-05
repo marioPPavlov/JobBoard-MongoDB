@@ -1,0 +1,70 @@
+﻿@model CvPreviewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CvPreviewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        @for(int i = 0; i < Model.Works.Count; i++)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Works[i].Position)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Works[i].Position)
+            </dd>
+        }
+    </dl>
+    <dl class="dl-horizontal">
+        @for(int i = 0; i < Model.Educations.Count; i++)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Educations[i].Qualification)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Educations[i].Qualification)
+            </dd>
+        }
+    </dl>
+    <dl class="dl-horizontal">
+        @for(int i = 0; i < Model.Languages.Count; i++)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Languages[i].Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Languages[i].Name)
+            </dd>
+        }
+    </dl>
+    <dl class="dl-horizontal">
+        @for(int i = 0; i < Model.Skills.Count; i++)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Skills[i].Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Skills[i].Name)
+            </dd>
+        }
+    </dl>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

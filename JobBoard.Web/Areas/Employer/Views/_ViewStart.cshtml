@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using JobBoard.Data.Models
+
+@inject SignInManager<User> SignInManager
+
+@{
+    if(SignInManager.IsSignedIn(User) && User.IsInRole(Web.EmployerRole))
+    {
+        Layout = "~/Areas/Employer/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Areas/Candidate/Views/Shared/_Layout.cshtml";
+    }
+}

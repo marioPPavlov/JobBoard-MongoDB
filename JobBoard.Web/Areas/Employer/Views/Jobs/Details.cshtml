@@ -1,0 +1,34 @@
+﻿@model JobDetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Model.Name</h1>
+<h3>@Model.Location</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt></dt>
+        <dd>
+            <img src="@Model.Picture" style="width:100px; height:100px" alt="Cv Photo">
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.Description)</textarea>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+    </dl>
+</div>
+
+@*@Html.ActionLink($"There are {Model.CvsCount} candidates for this position.View all.", "JobCvsList", new { id = Model.Id })*@
+
+

@@ -9,7 +9,7 @@ namespace JobBoard.Services.Employers.Models.Jobs
 {
     public class JobModel : IMapFrom<Job>, IHaveCustomMapping
     {
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         public string Title { get; set; }
 
@@ -23,7 +23,8 @@ namespace JobBoard.Services.Employers.Models.Jobs
         {
             mapper
               .CreateMap<Job, JobModel>()
-              .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.Description.Substring(0, Math.Min(20, src.Description.Length))));             
+              .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.Description.Substring(0, Math.Min(20, src.Description.Length))))
+              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()));
         }
     }
 }

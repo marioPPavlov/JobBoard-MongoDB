@@ -20,6 +20,10 @@ namespace JobBoard.Services.Candidates.Models.Cvs
         [StringLength(NameMax, MinimumLength = NameMin)]
         public string Email { get; set; }
 
+        //    [Required]
+        [StringLength(NameMax, MinimumLength = NameMin)]
+        public string Address { get; set; }
+
         [StringLength(PictureMax, MinimumLength = PictureMin)]
         public string Picture { get; set; }
 

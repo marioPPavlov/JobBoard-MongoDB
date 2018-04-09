@@ -2,13 +2,16 @@
 using AutoMapper.QueryableExtensions;
 using JobBoard.Data;
 using JobBoard.Data.Models;
+using JobBoard.Data.Models.Cvs;
 using JobBoard.Data.Models.Employers;
+using JobBoard.Services.Employers.Models.Cvs;
 using JobBoard.Services.Employers.Models.Jobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static JobBoard.Services.Constants.PageSettings;
 
@@ -70,9 +73,36 @@ namespace JobBoard.Services.Employers.Implementations
         {
             var userId = ObjectId.Parse(GetLoggedUser());
             var job = this.db.Jobs.Find(j => j.Id == ObjectId.Parse(id) && j.UserId == userId).SingleOrDefault();
+
+            var applicationIds = job.Applications.Select( a => a.AppliedCvId);   
+            var filter = Builders<Cv>.Filter.In(c => c.Id, applicationIds);
+            var cvs = this.db.Cvs.Find(filter).ToList();
+
             var jobDetails = Mapper.Map<JobDetailsModel>(job);
+            var cvModels = Mapper.Map<List<CvOverviewModel>>(cvs);
+            jobDetails.Cvs.AddRange(cvModels);
 
             return jobDetails;
+        }
+
+        public CvPreviewModel GetCvDetailsOfJob(string jobId, string cvId)
+        {
+            var userId = ObjectId.Parse(GetLoggedUser());
+            var job = this.db.Jobs.Find(j => j.Id == ObjectId.Parse(jobId)).SingleOrDefault();
+
+            bool jobBelongsToUser = (job.UserId == userId);
+            if (jobBelongsToUser)
+            {
+                bool jobContainsCv = job.Applications.Select(a => a.AppliedCvId).Contains(ObjectId.Parse(cvId));
+                if (jobContainsCv)
+                {
+                    var cv = this.db.Cvs.Find(c => c.Id == ObjectId.Parse(cvId)).SingleOrDefault();
+                    var cvDetails = Mapper.Map<CvPreviewModel>(cv);
+                    cvDetails.MotivationalLetter = job.Applications.Where(a => a.AppliedCvId.ToString() == cvId).SingleOrDefault().MotivationalLetter;
+                    return cvDetails;
+                }
+            }
+            return null;
         }
     }
 }

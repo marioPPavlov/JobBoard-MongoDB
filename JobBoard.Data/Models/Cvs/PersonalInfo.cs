@@ -23,6 +23,11 @@ namespace JobBoard.Data.Models.Cvs
         [BsonElement("email")]
         public string Email { get; set; }
 
+        [Required]
+        [StringLength(NameMax, MinimumLength = NameMin)]
+        [BsonElement("address")]
+        public string Address { get; set; }
+
         [StringLength(PictureMax, MinimumLength = PictureMin)]
         [BsonElement("picture")]
         public string Picture { get; set; }

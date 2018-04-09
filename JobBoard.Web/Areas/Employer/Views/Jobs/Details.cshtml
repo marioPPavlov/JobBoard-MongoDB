@@ -29,6 +29,32 @@
     </dl>
 </div>
 
-@*@Html.ActionLink($"There are {Model.CvsCount} candidates for this position.View all.", "JobCvsList", new { id = Model.Id })*@
-
+@if (Model.Cvs.Count != 0)
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <table class="table pull-left">
+                <tbody>
+                    @foreach (var cv in Model.Cvs)
+                    {
+                        <tr>
+                            <td>      
+                                <img src="@cv.Picture" align="left" style="width:100px; height:100px; border-radius:50px; " Xalt="Job Photo">
+                                <div class="text-left" style="margin-left:150px">
+                                    <p> @(Html.AreaLink<JobsController>(cv.Name, nameof(JobsController.ViewCv), new { id = Model.Id, cvId = cv.Id }))</p>
+                                    <p>@cv.Email</p>
+                                    <p>@cv.Address</p>
+                                </div>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <h4>There are currently no submitted applications for this job</h4>
+}
 

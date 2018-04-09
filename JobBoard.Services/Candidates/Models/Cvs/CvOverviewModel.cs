@@ -15,6 +15,8 @@ namespace JobBoard.Services.Candidates.Models.Cvs
 
         public string Picture { get; set; }
 
+
+
         public void ConfigureMapping(Profile mapper)
         {
             mapper

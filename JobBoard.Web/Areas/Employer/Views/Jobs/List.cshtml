@@ -22,18 +22,18 @@ else
     <div class="col-md-6">
         <table class="table ">
             <tbody>
-                @foreach(var item in Model.Jobs)
+                @foreach(var job in Model.Jobs)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Location)
-                            <h1>@Html.ActionLink(item.Title, "Details", new { area = "Employers", id = item.Id })</h1>
+                            @Html.DisplayFor(modelItem => job.Location)
+                            <h1>@(Html.AreaLink<JobsController>(job.Title, nameof(JobsController.Details), job.Id))</h1>
                         </td>
                         <td>
-                            <img src="@item.Picture" style="width:100px; height:100px" Xalt="Job Photo">
+                            <img src="@job.Picture" style="width:100px; height:100px" Xalt="Job Photo">
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ShortDescription)
+                            @Html.DisplayFor(modelItem => job.ShortDescription)
                         </td>
                     </tr>
                 }

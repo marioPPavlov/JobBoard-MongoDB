@@ -62,5 +62,16 @@ namespace JobBoard.Web.Areas.Employer.Controllers
             return View(jobDetails);
         }
 
+        public IActionResult ViewCv(string id, string cvId)
+        {
+            var cvDetails = this.emp.GetCvDetailsOfJob(id, cvId);
+
+            if (cvDetails == null)
+            {
+                return BadRequest();
+            }
+            return View(cvDetails);
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JobBoard.Common.Mapping;
 using JobBoard.Data.Models.Employers;
+using JobBoard.Services.Employers.Models.Cvs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ namespace JobBoard.Services.Employers.Models.Jobs
 {
     public class JobDetailsModel : IMapFrom<Job>, IHaveCustomMapping
     {
+        public string Id { get; set; }
         
         public string Name { get; set; }
 
@@ -20,14 +22,13 @@ namespace JobBoard.Services.Employers.Models.Jobs
 
         public string Tags { get; set; } 
 
-        public string MotivationalLetter { get; set; }
-
-        //public List<CvListingModel> Cvs { get; set; } = new List<CvListingModel>();
+        public List<CvOverviewModel> Cvs { get; set; } = new List<CvOverviewModel>();
 
         public void ConfigureMapping(Profile mapper)
         {
             mapper
-              .CreateMap<Job, JobDetailsModel>();
+              .CreateMap<Job, JobDetailsModel>()
+              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace JobBoard.Services.Candidates
     public interface ICandidateCvService
     {
         string GetUserIdByCvId(string id);
-        string GetLoggedUser();
+        ObjectId GetLoggedUser();
         bool CvBelongsToLoggedUser(string cvId);
 
         string Add(CvCreateModel model);

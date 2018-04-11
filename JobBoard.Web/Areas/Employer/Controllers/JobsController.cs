@@ -32,7 +32,6 @@ namespace JobBoard.Web.Areas.Employer.Controllers
             {
                 return View(model);
             }
-
             try
             {
                 var id = this.emp.AddJob(model).ToString();

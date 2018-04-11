@@ -17,13 +17,11 @@ namespace JobBoard.Services.Candidates.Models.Jobs
 
         public string Location { get; set; }
 
-        public string ShortDescription { get; set; }
-
         public void ConfigureMapping(Profile mapper)
         {
             mapper
-              .CreateMap<Job, JobModel>()
-              .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.Description.Substring(0, (20 > src.Description.Length) ? 20 : src.Description.Length)));             
+              .CreateMap<Job, JobModel>();
+             
         }
     }
 }

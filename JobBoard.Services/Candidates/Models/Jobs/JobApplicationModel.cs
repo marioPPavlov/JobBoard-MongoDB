@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using JobBoard.Common.Extensions;
 using JobBoard.Common.Mapping;
 using JobBoard.Data.Models.Employers;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace JobBoard.Services.Candidates.Models.Jobs
@@ -12,6 +14,7 @@ namespace JobBoard.Services.Candidates.Models.Jobs
     {
         public string MotivationalLetter { get; set; }
 
+        [Required]
         public string AppliedCvId { get; set; }
 
         public void ConfigureMapping(Profile mapper)
@@ -21,7 +24,7 @@ namespace JobBoard.Services.Candidates.Models.Jobs
 
             mapper.
                  CreateMap<JobApplicationModel, JobApplication>()
-                 .ForMember(dest => dest.AppliedCvId, opt => opt.MapFrom(src => ObjectId.Parse(src.AppliedCvId)));
+                 .ForMember(dest => dest.AppliedCvId, opt => opt.MapFrom(src => src.AppliedCvId.ToObjectId()));
         }
     }
 }

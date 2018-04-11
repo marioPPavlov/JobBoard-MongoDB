@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using JobBoard.Common.Extensions;
 using JobBoard.Data;
 using JobBoard.Data.Models;
 using JobBoard.Data.Models.Cvs;
@@ -34,15 +35,15 @@ namespace JobBoard.Services.Employers.Implementations
             this.userManager = userManager;
         }
 
-        public string GetLoggedUser()
+        public ObjectId GetLoggedUser()
         {
-            return userManager.GetUserId(_context.HttpContext.User);
+            return userManager.GetUserId(_context.HttpContext.User).ToObjectId();
         }
 
         public string AddJob(JobCreateModel form)
         {
             var job = Mapper.Map<Job>(form);
-            job.UserId = ObjectId.Parse(GetLoggedUser());
+            job.UserId = GetLoggedUser();
             job.Id = ObjectId.GenerateNewId();
 
             this.db.Jobs.InsertOneAsync(job);
@@ -51,7 +52,7 @@ namespace JobBoard.Services.Employers.Implementations
 
         public JobListModel GetUserJobs(int page = 1)
         {
-            var userId = ObjectId.Parse(GetLoggedUser());
+            var userId = GetLoggedUser();
             var jobs = this.db.Jobs.Find(c => c.UserId == userId).ToEnumerable();
  
             var jobPage = new JobListModel
@@ -64,42 +65,49 @@ namespace JobBoard.Services.Employers.Implementations
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(jobs.Count() / (double)PageSize)
             };
-
             return jobPage;
         }
 
 
         public JobDetailsModel GetJobDetails(string id)
         {
-            var userId = ObjectId.Parse(GetLoggedUser());
-            var job = this.db.Jobs.Find(j => j.Id == ObjectId.Parse(id) && j.UserId == userId).SingleOrDefault();
+            var userId = GetLoggedUser();
 
-            var applicationIds = job.Applications.Select( a => a.AppliedCvId);   
+            var job = this.db.Jobs.Find(j => j.Id == id.ToObjectId() && j.UserId == userId).SingleOrDefault();
+
+            if (job==null)
+            {
+                return null;
+            }
+
+            var applicationIds = job.Applications.Select(a => a.AppliedCvId);
             var filter = Builders<Cv>.Filter.In(c => c.Id, applicationIds);
             var cvs = this.db.Cvs.Find(filter).ToList();
 
             var jobDetails = Mapper.Map<JobDetailsModel>(job);
             var cvModels = Mapper.Map<List<CvOverviewModel>>(cvs);
             jobDetails.Cvs.AddRange(cvModels);
-
             return jobDetails;
         }
 
         public CvPreviewModel GetCvDetailsOfJob(string jobId, string cvId)
         {
-            var userId = ObjectId.Parse(GetLoggedUser());
-            var job = this.db.Jobs.Find(j => j.Id == ObjectId.Parse(jobId)).SingleOrDefault();
+            var userId = GetLoggedUser().ToString();
+            var job = this.db.Jobs.Find(j => j.Id == jobId.ToObjectId()).SingleOrDefault();
 
-            bool jobBelongsToUser = (job.UserId == userId);
-            if (jobBelongsToUser)
+            if (job!=null)
             {
-                bool jobContainsCv = job.Applications.Select(a => a.AppliedCvId).Contains(ObjectId.Parse(cvId));
-                if (jobContainsCv)
+                bool jobBelongsToUser = (job.UserId == userId.ToObjectId());
+                if (jobBelongsToUser)
                 {
-                    var cv = this.db.Cvs.Find(c => c.Id == ObjectId.Parse(cvId)).SingleOrDefault();
-                    var cvDetails = Mapper.Map<CvPreviewModel>(cv);
-                    cvDetails.MotivationalLetter = job.Applications.Where(a => a.AppliedCvId.ToString() == cvId).SingleOrDefault().MotivationalLetter;
-                    return cvDetails;
+                    bool jobContainsCv = job.Applications.Select(a => a.AppliedCvId).Contains(cvId.ToObjectId());
+                    if (jobContainsCv)
+                    {
+                        var cv = this.db.Cvs.Find(c => c.Id == cvId.ToObjectId()).SingleOrDefault();
+                        var cvDetails = Mapper.Map<CvPreviewModel>(cv);
+                        cvDetails.MotivationalLetter = job.Applications.Where(a => a.AppliedCvId.ToString() == cvId).SingleOrDefault().MotivationalLetter;
+                        return cvDetails;
+                    }
                 }
             }
             return null;

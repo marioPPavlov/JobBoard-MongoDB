@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobBoard.Common.Extensions;
 using JobBoard.Data;
 using JobBoard.Data.Models;
 using JobBoard.Data.Models.Cvs;
@@ -30,14 +31,14 @@ namespace JobBoard.Services.Candidates.Implementations
             this.userManager = userManager;
         }
 
-        public string GetLoggedUser()
+        public ObjectId GetLoggedUser()
         {
-            return  userManager.GetUserId(_context.HttpContext.User);
+            return  userManager.GetUserId(_context.HttpContext.User).ToObjectId();
         }
 
         public IEnumerable<CvOverviewModel> GetAllCvsOfLoggedUser()
         {
-            var cvs = this.db.Cvs.Find(c => c.UserId == ObjectId.Parse(GetLoggedUser()))
+            var cvs = this.db.Cvs.Find(c => c.UserId == GetLoggedUser())
                 .ToEnumerable()
                 .Reverse();
 
@@ -49,7 +50,7 @@ namespace JobBoard.Services.Candidates.Implementations
         public string Add(CvCreateModel model)
         {
             var cv = Mapper.Map<Cv>(model);
-            cv.UserId =  ObjectId.Parse(GetLoggedUser());
+            cv.UserId =  GetLoggedUser();
             cv.Id = ObjectId.GenerateNewId();
 
             this.db.Cvs.InsertOneAsync(cv);
@@ -57,11 +58,11 @@ namespace JobBoard.Services.Candidates.Implementations
         }
 
         public string GetUserIdByCvId(string id)
-            => this.db.Cvs.Find(c => c.Id == ObjectId.Parse(id)).SingleOrDefault().UserId.ToString();
+            => this.db.Cvs.Find(c => c.Id == id.ToObjectId()).SingleOrDefault().UserId.ToString();
 
         public CvPreviewModel GetCvDetails(string id)
         {
-            var cv = this.db.Cvs.Find(c => c.Id == ObjectId.Parse(id)).SingleOrDefault();
+            var cv = this.db.Cvs.Find(c => c.Id == id.ToObjectId()).SingleOrDefault();
             var personalInfoEditModel = Mapper.Map<CvPreviewModel>(cv);
 
             return personalInfoEditModel;
@@ -69,7 +70,7 @@ namespace JobBoard.Services.Candidates.Implementations
 
         public PersonalInfoEditModel GetPersonalInfoById(string id)
         {
-            var personalInfo =  this.db.Cvs.Find(c => c.Id == ObjectId.Parse(id)).SingleOrDefault().PersonalInfo;
+            var personalInfo =  this.db.Cvs.Find(c => c.Id == id.ToObjectId()).SingleOrDefault().PersonalInfo;
             var personalInfoEditModel = Mapper.Map<PersonalInfoEditModel>(personalInfo);
 
             return personalInfoEditModel;
@@ -80,20 +81,20 @@ namespace JobBoard.Services.Candidates.Implementations
             var personalInfo = Mapper.Map<PersonalInfo>(form);
 
             var updateResult = this.db.Cvs.UpdateOne(
-                    Builders<Cv>.Filter.Eq("_id", ObjectId.Parse(id)),
+                    Builders<Cv>.Filter.Eq("_id", id.ToObjectId()),
                     Builders<Cv>.Update.Set(nameof(Cv.PersonalInfo), personalInfo));
         }
 
         public bool CvBelongsToLoggedUser(string cvId)
         {
             string cvUserId = GetUserIdByCvId(cvId);
-            string userId = GetLoggedUser();
+            string userId = GetLoggedUser().ToString();
 
-            if(cvUserId == userId)
+            if(cvUserId == null || cvUserId != userId)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
 

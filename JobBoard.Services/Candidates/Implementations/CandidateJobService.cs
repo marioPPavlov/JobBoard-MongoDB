@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using JobBoard.Common.Extensions;
 using JobBoard.Data;
 using JobBoard.Data.Models;
 using JobBoard.Data.Models.Employers;
@@ -20,7 +21,6 @@ namespace JobBoard.Services.Candidates.Implementations
 {
     public class CandidateJobService : ICandidateJobService
     {
-
         private readonly JobBoardDbContext db;
         private readonly IHttpContextAccessor _context;
         private readonly UserManager<User> userManager;
@@ -36,61 +36,85 @@ namespace JobBoard.Services.Candidates.Implementations
             this.userManager = userManager;
         }
 
-        public string GetLoggedUser()
+        public ObjectId GetLoggedUser()
         {
-            return userManager.GetUserId(_context.HttpContext.User);
+            return userManager.GetUserId(_context.HttpContext.User).ToObjectId();
         }
 
         public JobListModel GetAllJobs(int page = 1)
         {
-            var jobs = this.db.Jobs.AsQueryable();
+            var jobs = this.db.Jobs.AsQueryable().ToList();
 
+            return GetPagedListFromJobs(jobs,page);
+        }
+
+        public JobListModel GetSearchedJobs(string text, int page = 1)
+        { 
+            var jobs = this.db.Jobs.AsQueryable().ToList();
+            var searchWords = text.ToLower().Split(' ').ToList();
+
+            var foundJobs = jobs.
+                            .Where(j =>
+                                   j.Tags.ToLower().Split(' ').Any(t => searchWords.Any(s => t.Contains(s)))
+                                   ||
+                                   j.Title.ToLower().Split(' ').Any(t => searchWords.Any(s => t.Contains(s))) );
+
+            return GetPagedListFromJobs(foundJobs, page);
+        }
+
+        private JobListModel GetPagedListFromJobs(IEnumerable<Job> jobs, int page)
+        {
             var jobPage = new JobListModel
             {
                 Jobs = jobs
-                        .Skip((page - 1) * PageSize)
-                        .Take(PageSize)
-                        .AsQueryable()
-                        .ProjectTo<JobModel>(),
-                CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(jobs.Count() / (double)PageSize)
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize)
+                    .AsQueryable()
+                    .ProjectTo<JobModel>(),
+                     CurrentPage = page,
+                     TotalPages = (int)Math.Ceiling(jobs.Count() / (double)PageSize)
             };
 
             return jobPage;
         }
 
+
         public JobDetailsModel GetJobDetails(string id)
         {
-            var userId = ObjectId.Parse(GetLoggedUser());
-            var job = this.db.Jobs.Find(j => j.Id == ObjectId.Parse(id)).SingleOrDefault();
-            var jobDetails = Mapper.Map<JobDetailsModel>(job);
-
+            var userId = GetLoggedUser();
+            var job = this.db.Jobs.Find(j => j.Id == id.ToObjectId()).SingleOrDefault();
             var cvs = this.db.Cvs.Find(c => c.UserId == userId).ToList();
+
+            if (job == null || cvs == null)
+            {
+                return null;
+            }
+
+            var jobDetails = Mapper.Map<JobDetailsModel>(job);
             jobDetails.Cvs = Mapper.Map<IEnumerable<CvOverviewModel>>(cvs);
 
             return jobDetails;
         }
 
-        public bool ApplyCvToJob(JobApplicationModel model, string id)
+        public bool ApplyCvToJob(JobDetailsModel model, string id)
         {
             var jobApplication = Mapper.Map<JobApplication>(model);
-            var job = this.db.Jobs.Find(j => j.Id == ObjectId.Parse(id)).SingleOrDefault();
-
-            bool applicationExists = job.Applications.Select(a => a.AppliedCvId).Equals(model.AppliedCvId);
-
-            if(!applicationExists)
+            var job = this.db.Jobs.Find(j => j.Id == id.ToObjectId()).SingleOrDefault();
+            if (job!=null)
             {
-                var updateResult = this.db.Jobs.UpdateOne(
-                    Builders<Job>.Filter.Eq("_id", ObjectId.Parse(id)),
-                    Builders<Job>.Update.AddToSet(nameof(Job.Applications), jobApplication));
+                bool applicationExists = job.Applications.Select(a => a.AppliedCvId).Contains(model.AppliedCvId.ToObjectId());
+                if (!applicationExists)
+                {
+                    var updateResult = this.db.Jobs.UpdateOne(
+                        Builders<Job>.Filter.Eq("_id", id.ToObjectId()),
+                        Builders<Job>.Update.AddToSet(nameof(Job.Applications), jobApplication));
 
-                return true;
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
-
+            return false;
         }
+
+
     }
 }

@@ -2,6 +2,7 @@
 using JobBoard.Services.Candidates.Models.Jobs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using JobBoard.Web.Infrastructure.Extensions;
 using static JobBoard.Web.Infrastructure.Constants.Web;
 
 namespace JobBoard.Web.Areas.Candidate.Controllers
@@ -21,12 +22,17 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             this.can = can;
         }
 
-        [AllowAnonymous]
-        [Route("/")]
+        [AllowAnonymous]        
         public IActionResult All(int page = 1)
         {
             var jobPageListModel = can.GetAllJobs(page);
+            return this.View(jobPageListModel);
+        }
 
+        [AllowAnonymous]
+        public IActionResult Search([FromQuery]string text,int page = 1 )
+        {
+            var jobPageListModel = can.GetSearchedJobs(text ,page);
             return this.View(jobPageListModel);
         }
 
@@ -42,10 +48,28 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
         }
 
         [HttpPost]
-        public IActionResult Apply(JobApplicationModel form, string id)
+        public IActionResult Details(JobDetailsModel form, string id)
         {
-            this.can.ApplyCvToJob(form, id);
-            return RedirectToAction("/");
+            if (!ModelState.IsValid || form.AppliedCvId == null)
+            {
+                TempData.AddErrorMessage("Please select a CV before applying");
+                var jobDetails = this.can.GetJobDetails(id);
+                jobDetails.MotivationalLetter = form.MotivationalLetter;
+                jobDetails.AppliedCvId = form.AppliedCvId;
+                return View(jobDetails);
+            }
+
+            var success = this.can.ApplyCvToJob(form, id);
+            if (!success)
+            {
+                TempData.AddErrorMessage("You have already applied for this job with this CV");
+                return this.RedirectToAction<JobsController>(nameof(JobsController.Details), id);
+            }
+            else
+            {
+                TempData.AddSuccessMessage("You have successfully applied");
+                return this.RedirectToAction<JobsController>(nameof(JobsController.All));
+            }
         }
     }
 }

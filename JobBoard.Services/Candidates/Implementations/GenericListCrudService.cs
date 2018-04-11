@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JobBoard.Common.DTO;
+using JobBoard.Common.Extensions;
 using JobBoard.Data;
 using JobBoard.Data.Models.Cvs;
 using MongoDB.Bson;
@@ -56,7 +57,7 @@ namespace JobBoard.Services.Candidates
         private UpdateResult SaveChanges(string id,List<D> collection)
         {
             var updateResult = this.db.Cvs.UpdateOne(
-               Builders<Cv>.Filter.Eq("_id", ObjectId.Parse(id)),
+               Builders<Cv>.Filter.Eq("_id", id.ToObjectId()),
                Builders<Cv>.Update.Set(GetDbSetName(), collection));
 
             return updateResult;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobBoard.Common.Extensions;
 using JobBoard.Common.Mapping;
 using JobBoard.Data.Models.Employers;
 using JobBoard.Services.Candidates.Models.Cvs;
@@ -32,6 +33,9 @@ namespace JobBoard.Services.Candidates.Models.Jobs
         {
             mapper
               .CreateMap<Job, JobDetailsModel>();
+            mapper
+                .CreateMap<JobDetailsModel, JobApplication>()
+                .ForMember(dest => dest.AppliedCvId, src => src.MapFrom(opt => opt.AppliedCvId.ToObjectId()));
         }
     }
 }

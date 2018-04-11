@@ -6,7 +6,7 @@ namespace JobBoard.Services.Candidates.Models.Jobs
 {
     public class JobListModel
     {
-        public IEnumerable<JobModel> Jobs { get; set; }
+        public IEnumerable<JobModel> Jobs { get; set; } = new List<JobModel>();
 
         public int CurrentPage { get; set; }
 

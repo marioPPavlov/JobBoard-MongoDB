@@ -1,4 +1,5 @@
-﻿using JobBoard.Data;
+﻿using JobBoard.Common.Extensions;
+using JobBoard.Data;
 using JobBoard.Data.Models.Cvs;
 using JobBoard.Services.Candidates.Models.Cvs;
 using JobBoard.Services.Candidates.Models.Cvs.Lists;
@@ -17,7 +18,7 @@ namespace JobBoard.Services.Candidates.Implementations
 
         protected override List<Skill> GetCollectionById(string id)
         {
-            var skills = this.db.Cvs.Find(c => c.Id == ObjectId.Parse(id))
+            var skills = this.db.Cvs.Find(c => c.Id == id.ToObjectId())
                  .SingleOrDefault()
                  .Skills
                  .ToList();

@@ -82,7 +82,7 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             if(this.cvs.CvBelongsToLoggedUser(id))
             {
                 this.cvs.UpdatePersonalInfo(id, form);
-                return this.RedirectToAction<WorksController>(nameof(WorksController.Edit),  id );
+                return this.RedirectToAction<WorksController>(nameof(WorksController.Edit), id);
             }
             return BadRequest();
         }       

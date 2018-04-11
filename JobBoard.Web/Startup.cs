@@ -2,12 +2,16 @@
 using JobBoard.Data;
 using JobBoard.Services.Default;
 using JobBoard.Web.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace JobBoard.Web
 {
@@ -26,12 +30,10 @@ namespace JobBoard.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<JobBoardDbContext>();
 
-            // Register identity framework services and also Mongo storage.   
             services.AddMongoIdentity(Configuration,
                     options =>
                     {
@@ -42,7 +44,17 @@ namespace JobBoard.Web
                         options.Password.RequiredUniqueChars = 0;
                         options.Password.RequiredLength = 3;
                     })
-                    .AddDefaultTokenProviders(); 
+                    .AddDefaultTokenProviders();
+            
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+                options.LoginPath="/Home/Account/Login";
+            });
 
             services.AddDomainServices();
             services.AddAutoMapper();
@@ -52,15 +64,13 @@ namespace JobBoard.Web
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
-
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {  
-
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -69,18 +79,17 @@ namespace JobBoard.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseCreatedRoles();
-
-            app.UseStaticFiles();
-
             app.UseAuthentication();
+            app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
+ 
+            app.UseCreatedRoles();
+            app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     "default",
-                    "{area=Candidate}/{controller=Jobs}/{action=All}");
+                    "{controller=Home}/{action=Index}");
             });
         }
     }

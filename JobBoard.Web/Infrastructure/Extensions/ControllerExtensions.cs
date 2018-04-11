@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Reflection;
 
 namespace JobBoard.Web.Infrastructure.Extensions
 {
@@ -8,16 +9,14 @@ namespace JobBoard.Web.Infrastructure.Extensions
 
         public static IActionResult RedirectToAction<TController>(this Controller currentController, string actionName)
         {
-            string controllerName = typeof(TController).Name.Replace("Controller", String.Empty);
-
-            return currentController.RedirectToAction(actionName, controllerName);
+            return currentController.RedirectToAction<TController>(actionName, null);
         }
 
         public static IActionResult RedirectToAction<TController>(this Controller currentController, string actionName, string id)
         {
             string controllerName = typeof(TController).Name.Replace("Controller", String.Empty);
-
-            return currentController.RedirectToAction(actionName, controllerName, new { id });
+            var area = typeof(TController).GetTypeInfo().GetCustomAttribute<AreaAttribute>().RouteValue;
+            return currentController.RedirectToAction(actionName, controllerName, new { id, area });
         }
 
         public static IActionResult ViewOrNotFound(this Controller controller, object model)

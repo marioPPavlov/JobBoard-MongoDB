@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - JobBoard.Web</title>
+    <title>@ViewData["Title"] - JobBoard</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,19 +26,37 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">JobBoard.Web</a>
+                <div class="navbar-brand"> @(Html.AreaLink<HomeController>("JobBoard", nameof(HomeController.Index)))</div>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@(Html.AreaLink<CvsController>("My CVs", nameof(CvsController.List)))</li>
-                    <li>@(Html.AreaLink<CvsController>("Create", nameof(CvsController.Create)))</li>               
-                    <li>@(Html.AreaLink<WorksController>("Edit Work^^", nameof(WorksController.Edit), "5aabfd298aaae02abc9c0db3"))</li>
+                @if (User.IsInRole(Web.CandidateRole))
+                {
+                  @await Html.PartialAsync("~/Areas/Candidate/Views/Shared/_NavbarPartial.cshtml");
+                }
+                else if (User.IsInRole(Web.EmployerRole))
+                {
+                   @await Html.PartialAsync("~/Areas/Employer/Views/Shared/_NavbarPartial.cshtml");
+                }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
     <div class="container body-content">
+        @if (TempData.ContainsKey(Web.TempDataSuccessMessageKey))
+        {
+            <div class="alert alert-success">
+                @TempData[Web.TempDataSuccessMessageKey]
+            </div>
+        }
+
+        @if (TempData.ContainsKey(Web.TempDataErrorMessageKey))
+        {
+            <div class="alert alert-danger">
+                @TempData[Web.TempDataErrorMessageKey]
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>

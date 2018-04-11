@@ -6,32 +6,31 @@
 
 <h1>@Model.Name</h1>
 <h3>@Model.Location</h3>
+<form asp-action="Details" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt></dt>
+            <dd>
+                <img src="@Model.Picture" style="width:100px; height:100px" alt="Cv Photo">
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.Description)</textarea>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tags)
+            </dd>
+        </dl>
+    </div>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt></dt>
-        <dd>
-            <img src="@Model.Picture" style="width:100px; height:100px" alt="Cv Photo">
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.Description)</textarea>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-    </dl>
-</div>
-
-@if(Model.Cvs.Count() != 0)
-{
-    <form asp-action="Apply" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+    @if (Model.Cvs.Count() != 0)
+    {
         <div>
             <h4>Choose your CV and apply for the job</h4>
             <hr />
@@ -39,13 +38,11 @@
             <div class="form-group">
 
                 <dl class="dl-horizontal">
-                    @foreach(var cv in Model.Cvs)
+                    @foreach (var cv in Model.Cvs)
                     {
-                    <dd>
-
-                        <div>@Html.RadioButtonFor(m => m.AppliedCvId, cv.Id)  @cv.Title </div>
-                        
-                    </dd>
+                        <dd>
+                            <div>@Html.RadioButtonFor(m => m.AppliedCvId, cv.Id)  @cv.Title </div>
+                        </dd>
                     }
                 </dl>
             </div>
@@ -60,12 +57,13 @@
             </div>
         </div>
         <button type="submit" class="btn btn-default">Apply</button>
-    </form>
-}
-else
-{
-    <p>You do not have any registered CVs, with which you can apply for this job.</p>
-    <p><a asp-area="Candidates" asp-controller="Cvs" asp-action="CreateCv">Create Cv</a></p>
-}
 
+    }
+
+    else
+    {
+        <p>You do not have any registered CVs, with which you can apply for this job.</p>
+        <p><a asp-area="Candidates" asp-controller="Cvs" asp-action="CreateCv">Create Cv</a></p>
+    }
+</form>
 

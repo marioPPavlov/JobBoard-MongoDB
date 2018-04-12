@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using JobBoard.Common.Extensions;
 using JobBoard.Data;
@@ -14,6 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static JobBoard.Services.Constants.PageSettings;
 
 
@@ -53,11 +52,12 @@ namespace JobBoard.Services.Candidates.Implementations
             var jobs = this.db.Jobs.AsQueryable().ToList();
             var searchWords = text.ToLower().Split(' ').ToList();
 
-            var foundJobs = jobs.
+            var foundJobs = jobs
                             .Where(j =>
-                                   j.Tags.ToLower().Split(' ').Any(t => searchWords.Any(s => t.Contains(s)))
-                                   ||
-                                   j.Title.ToLower().Split(' ').Any(t => searchWords.Any(s => t.Contains(s))) );
+                                       j.Tags.ToLower().Split(' ').Any(t => searchWords.Any(s => t.Contains(s)))
+                                       ||
+                                       j.Title.ToLower().Split(' ').Any(t => searchWords.Any(s => t.Contains(s)))
+                                   );
 
             return GetPagedListFromJobs(foundJobs, page);
         }

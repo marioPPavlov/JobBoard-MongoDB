@@ -1,7 +1,6 @@
 ﻿using JobBoard.Data.Models;
 using JobBoard.Data.Models.AccountViewModels;
 using JobBoard.Services.Default;
-using JobBoard.Web.Areas.Candidate.Controllers;
 using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -65,7 +64,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return this.RedirectToLocal("/");
+                    return this.RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -128,12 +127,12 @@ namespace JobBoard.Web.Areas.Home.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
-                return RedirectToLocal(returnUrl);
+                return this.RedirectToLocal(returnUrl);
             }
             else if (result.IsLockedOut)
             {
                 _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-                return RedirectToAction(nameof(Lockout));
+                return this.RedirectToAction(nameof(Lockout));
             }
             else
             {
@@ -182,7 +181,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
-                return RedirectToLocal(returnUrl);
+                return this.RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
             {
@@ -295,7 +294,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
+                return this.RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
             {
@@ -333,7 +332,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        return RedirectToLocal(returnUrl);
+                        return this.RedirectToLocal(returnUrl);
                     }
                 }
                 AddErrors(result);
@@ -458,18 +457,6 @@ namespace JobBoard.Web.Areas.Home.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
 

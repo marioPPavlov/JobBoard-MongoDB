@@ -11,13 +11,17 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            @{ List<SkillModel> works = Model.Skills; }
-            @for(int i = 0; i < works.Count; i++)
+            @{ List<SkillModel> skill = Model.Skills; }
+            @for(int i = 0; i < skill.Count; i++)
             {
             <div class="form-group">
-                <label asp-for=@works[i].Name class="control-label"></label>
-                <input asp-for=@works[i].Name class="form-control" />
-                <span asp-validation-for=@works[i].Name class=" text-danger"></span>
+                <label asp-for=@skill[i].Name class="control-label"></label>
+                <input asp-for=@skill[i].Name class="form-control" />
+                <span asp-validation-for=@skill[i].Name class=" text-danger"></span>
+
+                <label asp-for=@skill[i].Level class="control-label"></label>
+                <input asp-for=@skill[i].Level class="form-control" />
+                <span asp-validation-for=@skill[i].Level class=" text-danger"></span>
                 <div>
                     @(Html.AreaLink<SkillsController>("Remove", nameof(SkillsController.Remove), nameof(EducationsController), new { id = ViewContext.RouteData.Values["id"] }))
                 </div>

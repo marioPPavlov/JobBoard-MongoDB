@@ -1,9 +1,10 @@
 ﻿@model CvPreviewModel
-@{
-    ViewData["Title"] = "Details";
-}
 
 <h2>Details</h2>
+
+<div>
+    @(Html.AreaLink<CvsController>("Edit", nameof(CvsController.PersonalInfo), new { id = ViewContext.RouteData.Values["id"] }))
+</div>
 
 <div>
     <h4>CvPreviewModel</h4>
@@ -16,8 +17,45 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
     </dl>
+    <hr />
     <dl class="dl-horizontal">
-        @for(int i = 0; i < Model.Works.Count; i++)
+        <dd>
+            <img src="@Model.PersonalInfo.Picture" style="width:200px; border-radius:90px" alt="Cv Photo">
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalInfo.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalInfo.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalInfo.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalInfo.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalInfo.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalInfo.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalInfo.BirhtDate)
+        </dt>
+        <dd>
+            @Model.PersonalInfo.BirhtDate.ToString();
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalInfo.Gender)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalInfo.Gender)
+        </dd>
+    </dl>
+
+    <dl class="dl-horizontal">
+        @for (int i = 0; i < Model.Works.Count; i++)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.Works[i].Position)
@@ -25,10 +63,28 @@
             <dd>
                 @Html.DisplayFor(model => model.Works[i].Position)
             </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Works[i].Employer)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Works[i].Employer)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Works[i].DateFrom)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Works[i].DateFrom)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Works[i].DateTo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Works[i].DateTo)
+            </dd>
         }
     </dl>
     <dl class="dl-horizontal">
-        @for(int i = 0; i < Model.Educations.Count; i++)
+        @for (int i = 0; i < Model.Educations.Count; i++)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.Educations[i].Qualification)
@@ -36,10 +92,28 @@
             <dd>
                 @Html.DisplayFor(model => model.Educations[i].Qualification)
             </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Educations[i].Organisation)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Educations[i].Organisation)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Educations[i].DateFrom)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Educations[i].DateFrom)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Educations[i].DateTo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Educations[i].DateTo)
+            </dd>
         }
     </dl>
     <dl class="dl-horizontal">
-        @for(int i = 0; i < Model.Languages.Count; i++)
+        @for (int i = 0; i < Model.Languages.Count; i++)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.Languages[i].Name)
@@ -47,10 +121,16 @@
             <dd>
                 @Html.DisplayFor(model => model.Languages[i].Name)
             </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Languages[i].Level)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Languages[i].Level)
+            </dd>
         }
     </dl>
     <dl class="dl-horizontal">
-        @for(int i = 0; i < Model.Skills.Count; i++)
+        @for (int i = 0; i < Model.Skills.Count; i++)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.Skills[i].Name)
@@ -58,13 +138,14 @@
             <dd>
                 @Html.DisplayFor(model => model.Skills[i].Name)
             </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Skills[i].Level)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Skills[i].Level)
+            </dd>
         }
     </dl>
 </div>
 
 
-
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>

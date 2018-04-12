@@ -1,15 +1,15 @@
 ﻿using JobBoard.Services.Candidates;
 using JobBoard.Services.Candidates.Models.Jobs;
+using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using JobBoard.Web.Infrastructure.Extensions;
 using static JobBoard.Web.Infrastructure.Constants.Web;
 
 namespace JobBoard.Web.Areas.Candidate.Controllers
 {
     [Area(CandidatesArea)]
     [Route("[area]/[controller]/[action]/{id?}")]
-    [Authorize(Roles = CandidateRole)]
+
     public class JobsController : Controller
     {
         private readonly ICandidateJobService can;
@@ -48,6 +48,7 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = CandidateRole)]
         public IActionResult Details(JobDetailsModel form, string id)
         {
             if (!ModelState.IsValid || form.AppliedCvId == null)

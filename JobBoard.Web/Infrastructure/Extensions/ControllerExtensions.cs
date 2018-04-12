@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JobBoard.Web.Areas.Home.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Reflection;
 
@@ -6,7 +8,7 @@ namespace JobBoard.Web.Infrastructure.Extensions
 {
     public static class ControllerExtensions
     {
-
+        #region RedirectionToAction
         public static IActionResult RedirectToAction<TController>(this Controller currentController, string actionName)
         {
             return currentController.RedirectToAction<TController>(actionName, null);
@@ -18,15 +20,20 @@ namespace JobBoard.Web.Infrastructure.Extensions
             var area = typeof(TController).GetTypeInfo().GetCustomAttribute<AreaAttribute>().RouteValue;
             return currentController.RedirectToAction(actionName, controllerName, new { id, area });
         }
+        #endregion
 
-        public static IActionResult ViewOrNotFound(this Controller controller, object model)
+        #region RedirectionToLocal
+        public static IActionResult RedirectToLocal(this Controller currentController, string returnUrl)
         {
-            if(model == null)
+            if (currentController.Url.IsLocalUrl(returnUrl))
             {
-                return controller.NotFound();
+                return currentController.Redirect(returnUrl);
             }
-            return controller.View(model);
+            else
+            {
+                return currentController.RedirectToAction<HomeController>(nameof(HomeController.Index));
+            }
         }
+        #endregion
     }
-
 }

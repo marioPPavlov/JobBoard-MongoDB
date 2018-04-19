@@ -6,50 +6,50 @@
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-6">
-        <h2>Create a new CV entry</h2>
+     
     </div>
 </div>
 
-<hr />
+
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-
+        <h2>Your Personal information:</h2>
+        <hr />
         <form asp-action="PersonalInfo">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Picture" class="control-label"></label>
                 <input asp-for="Picture" class="form-control" />
                 <span asp-validation-for="Picture" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BirhtDate" class="control-label"></label>
-                    <input asp-for="BirhtDate" class="form-control" />
-                    <span asp-validation-for="BirhtDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhoneNumber" class="control-label"></label>
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
+
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+
+                <label asp-for="BirhtDate" class="control-label"></label>
+                <input asp-for="BirhtDate" class="form-control" />
+                <span asp-validation-for="BirhtDate" class="text-danger"></span>
+
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                <div class="buttonCenter">
                     <label asp-for="Gender"></label>
                     @Html.RadioButtonFor(m => m.Gender, "Male") Male
                     @Html.RadioButtonFor(m => m.Gender, "Female") Female
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+            <div class="form-group buttonCenter">
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>

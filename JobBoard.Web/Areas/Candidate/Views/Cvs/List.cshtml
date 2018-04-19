@@ -1,38 +1,43 @@
 ﻿@model IEnumerable<CvOverviewModel>
 
-@{
-    ViewData["Title"] = "View";
-}
 
+    @if (Model.Count() == 0)
+    {
+        <h1>You do not have any registered CVs.</h1>
+        <h1><a asp-area="Candidates" asp-controller="Cvs" asp-action="CreateCv">Create Cv</a></h1>
+    }
+    else
+    {
+        <h1 class="text-center">Your CVs, created with JobBoard</h1>
+    }
 
-@if(Model.Count() == 0)
-{
-    <h1>You do not have any registered CVs.</h1>
-    <h1><a asp-area="Candidates" asp-controller="Cvs" asp-action="CreateCv">Create Cv</a></h1>
-}
-else
-{
-    <h1 class="text-center">Your CVs, created with JobBoard</h1>
-}
+    <br />
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <table class="table pull-left">
+                <tbody>
+                    @foreach (var cv in Model)
+                    {
+                        var viewButton = Html.GetViewDataLink<CvsController>(nameof(CvsController.Details), new { id = cv.Id });
+                        var editButton = Html.GetViewDataLink<CvsController>(nameof(CvsController.PersonalInfo), new { id = cv.Id });
+                        var deleteButton = Html.GetViewDataLink<CvsController>(nameof(CvsController.Delete), new { id = cv.Id });
 
-<br />
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <table class="table pull-left">
-            <tbody>
-                @foreach(var cv in Model)
-                {
-                    <tr class=" table-bordered">
-                        <td class="text-center">
-                            <h1> @(Html.AreaLink<CvsController>(cv.Title, nameof(CvsController.Details), cv.Id))</h1>
-                            <img src="@cv.Picture" style="width:100px; height:100px; border-radius:50px " Xalt="Job Photo">
-                        </td>
-                    </tr>
-                }
+                        <tr class="table-bordered">
+                            <td class="text-center">
+                                <h2>@cv.Title</h2>
+                                <div>
+                                    <img src="@cv.Picture" class="smallCvPicture" Xalt="Cv picture">
+                                </div>
+                                @Html.ViewDataLink("View", viewButton, new { @class = "btn btn-success listButton" })
+                                @Html.ViewDataLink("Edit", editButton, new { @class = "btn btn-primary listButton" })
+                                @Html.ViewDataLink("Delete", editButton, new { @class = "btn btn-danger listButton" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
 
-            </tbody>
-        </table>
-        <a class="text-center" asp-area="Candidates" asp-controller="Cvs" asp-action="CreateCv">Create a new Cv</a>
+            </table>
+            <a style="text-align:center" asp-area="Candidates" asp-controller="Cvs" asp-action="Create">Create a new Cv</a>
+        </div>
     </div>
-</div>

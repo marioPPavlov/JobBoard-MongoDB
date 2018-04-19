@@ -1,69 +1,88 @@
 ﻿@model JobDetailsModel
 
-@{
-    ViewData["Title"] = "Details";
-}
+<img src="@Model.Picture" style="width:400px; height:300px; margin-left:350px" alt="Job Picture">
 
-<h1>@Model.Name</h1>
-<h3>@Model.Location</h3>
-<form asp-action="Details" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-    <div>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt></dt>
-            <dd>
-                <img src="@Model.Picture" style="width:100px; height:100px" alt="Cv Photo">
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd>
-                <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.Description)</textarea>
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Tags)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Tags)
-            </dd>
-        </dl>
-    </div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+        <h1>@Model.Name</h1>
 
-    @if (Model.Cvs.Count() != 0)
-    {
         <div>
-            <h4>Choose your CV and apply for the job</h4>
             <hr />
+            <dl class="dl-horizontal">
+                <dt></dt>
+                <dd>
 
-            <div class="form-group">
-
-                <dl class="dl-horizontal">
-                    @foreach (var cv in Model.Cvs)
-                    {
-                        <dd>
-                            <div>@Html.RadioButtonFor(m => m.AppliedCvId, cv.Id)  @cv.Title </div>
-                        </dd>
-                    }
-                </dl>
-            </div>
-            <div class="form-group">
-                <dl class="dl-horizontal">
-                    <dd>
-                        <label asp-for="MotivationalLetter"></label>
-                        <textarea asp-for="MotivationalLetter" rows="10" class="form-control" placeholder="Write your motivational letter"></textarea>
-                        <span asp-validation-for="MotivationalLetter" class="text-danger"></span>
-                    </dd>
-                </dl>
-            </div>
+                </dd>
+                <dt>
+                    <label asp-for="Description"></label>
+                </dt>
+                <dd>
+                    <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.Description)</textarea>
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tags)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Tags)
+                </dd>
+            </dl>
         </div>
-        <button type="submit" class="btn btn-default">Apply</button>
+    </div>
+</div>
 
-    }
 
-    else
-    {
-        <p>You do not have any registered CVs, with which you can apply for this job.</p>
-        <p><a asp-area="Candidates" asp-controller="Cvs" asp-action="CreateCv">Create Cv</a></p>
-    }
-</form>
 
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+        <form asp-action="Details" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            @if (Model.Cvs.Count() != 0)
+            {
+                <div>
+                    <h2 class="text-center">Choose your CV and apply for the job</h2>
+                    <hr />
+
+                    <div class="form-group">
+
+                        <dl class="dl-horizontal">
+                            @foreach (var cv in Model.Cvs)
+                            {
+                                <dd>
+                                    <div>
+                                        @Html.RadioButtonFor(m => m.AppliedCvId, cv.Id)
+                                        <img src="@cv.Picture" class="smallCvPicture" alt="Job Picture">
+                                        <div style="padding-left:35px">
+                                            @cv.Title
+                                        </div>
+                                    </div>
+                                </dd>
+
+                            }
+                        </dl>
+                    </div>
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dd>
+                                <label asp-for="MotivationalLetter"></label>
+                                <textarea asp-for="MotivationalLetter" rows="10" class="form-control" placeholder="Write your motivational letter"></textarea>
+                                <span asp-validation-for="MotivationalLetter" class="text-danger"></span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    <button type="submit" class="btn btn-success">Apply</button>
+                </div>
+
+            }
+
+            else
+            {
+                <p>You do not have any registered CVs, with which you can apply for this job.</p>
+                <p><a asp-area="Candidates" asp-controller="Cvs" asp-action="Create">Create Cv</a></p>
+            }
+        </form>
+
+    </div>
+</div>

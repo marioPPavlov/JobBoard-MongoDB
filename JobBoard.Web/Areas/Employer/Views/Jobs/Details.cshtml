@@ -1,50 +1,25 @@
 ﻿@model JobDetailsModel
 
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>@Model.Name</h1>
-<h3>@Model.Location</h3>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt></dt>
-        <dd>
-            <img src="@Model.Picture" style="width:100px; height:100px" alt="Cv Photo">
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.Description)</textarea>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-    </dl>
-</div>
+@await Html.PartialAsync("_JobMain")
 
 @if (Model.Cvs.Count != 0)
 {
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <table class="table pull-left">
+            <table class="table pull-left text-center">
                 <tbody>
                     @foreach (var cv in Model.Cvs)
                     {
                         <tr>
-                            <td>      
-                                <img src="@cv.Picture" align="left" style="width:100px; height:100px; border-radius:50px; " Xalt="Job Photo">
+                            <td>
+                                <img src="@cv.Picture" align="left" class="smallCvPicture" Xalt="Job Photo">
                                 <div class="text-left" style="margin-left:150px">
-                                    <p> @(Html.AreaLink<JobsController>(cv.Name, nameof(JobsController.ViewCv), new { id = Model.Id, cvId = cv.Id }))</p>
-                                    <p>@cv.Email</p>
-                                    <p>@cv.Address</p>
+                                    <div>@cv.Name</div>
+                                    <div>@cv.Email</div>
+                                    <div>@cv.Address</div>
+                                    @{ var viewButton = Html.GetViewDataLink<JobsController>(nameof(JobsController.ViewCv), new { id = Model.Id, cvId = cv.Id }); }
+                                    @Html.ViewDataLink("View", viewButton, new { @class = "btn btn-success" })
                                 </div>
                         </tr>
                     }

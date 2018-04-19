@@ -1,41 +1,24 @@
 ﻿@model SkillListModel
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Skill";
+    ViewData["AddButton"] = Html.GetViewDataLink<SkillsController>(nameof(SkillsController.Add), new { id = ViewContext.RouteData.Values["id"] });
 }
 
-<h2>Skills</h2>
-
 <div class="row">
+    <div class="col-md-4"></div>
     <div class="col-md-4">
+        <h2 style="text-align:center"> Your Skills:</h2>
+        <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            @{ List<SkillModel> skill = Model.Skills; }
-            @for(int i = 0; i < skill.Count; i++)
-            {
-            <div class="form-group">
-                <label asp-for=@skill[i].Name class="control-label"></label>
-                <input asp-for=@skill[i].Name class="form-control" />
-                <span asp-validation-for=@skill[i].Name class=" text-danger"></span>
+            @Html.Partial("_Edit")
 
-                <label asp-for=@skill[i].Level class="control-label"></label>
-                <input asp-for=@skill[i].Level class="form-control" />
-                <span asp-validation-for=@skill[i].Level class=" text-danger"></span>
-                <div>
-                    @(Html.AreaLink<SkillsController>("Remove", nameof(SkillsController.Remove), nameof(EducationsController), new { id = ViewContext.RouteData.Values["id"] }))
-                </div>
-            </div>
-           }
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="buttonCenter">
+                @Html.Partial("_AddCrudPartial")
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    @(Html.AreaLink<SkillsController>("Add", nameof(SkillsController.Add), new { id = ViewContext.RouteData.Values["id"] }))
-    <a asp-action="Index">Back to List</a>
 </div>
 

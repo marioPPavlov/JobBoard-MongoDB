@@ -97,6 +97,9 @@ namespace JobBoard.Services.Candidates.Implementations
             return true;
         }
 
-
+        public void Delete(string id)
+        {
+              this.db.Cvs.DeleteOne(c => c.Id == id.ToObjectId());
+        }
     }
 }

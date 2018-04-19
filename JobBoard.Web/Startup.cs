@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using JobBoard.Data;
 using JobBoard.Services.Default;
+using JobBoard.Web.Infrastructure;
 using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,6 +34,16 @@ namespace JobBoard.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Add(new ViewLocationExpander());
+                options.PageViewLocationFormats.Add("/Areas/{2}/Views/Shared/Partial/{0}.cshtml");
+                options.AreaViewLocationFormats.Add("/Areas/{2}/Views/Shared/Partial/{0}.cshtml");
+            });
+
+
+
             services.AddScoped<JobBoardDbContext>();
 
             services.AddMongoIdentity(Configuration,
@@ -59,6 +71,9 @@ namespace JobBoard.Web
             services.AddDomainServices();
             services.AddAutoMapper();
             services.AddTransient<IEmailSender, EmailSender>();
+
+
+
 
             services.AddMvc(options =>
             {
@@ -91,6 +106,8 @@ namespace JobBoard.Web
                     "default",
                     "{controller=Home}/{action=Index}");
             });
+
+            
         }
     }
 }

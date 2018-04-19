@@ -1,8 +1,5 @@
 ﻿@model JobListModel
 
-@{
-    ViewData["Title"] = "View";
-}
 
 @if(Model.Jobs.Count() == 0)
 {
@@ -30,7 +27,7 @@ else
                             <h1>@(Html.AreaLink<JobsController>(job.Title, nameof(JobsController.Details), job.Id))</h1>
                         </td>
                         <td>
-                            <img src="@job.Picture" style="width:100px; height:100px" Xalt="Job Photo">
+                            <img src="@job.Picture" class="smallJobPicture" Xalt="Job Photo">
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => job.ShortDescription)

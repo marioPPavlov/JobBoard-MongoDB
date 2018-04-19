@@ -16,6 +16,7 @@ namespace JobBoard.Services.Candidates
         bool CvBelongsToLoggedUser(string cvId);
 
         string Add(CvCreateModel model);
+        void Delete(string id);
         CvPreviewModel GetCvDetails(string id);
         IEnumerable<CvOverviewModel> GetAllCvsOfLoggedUser();
 

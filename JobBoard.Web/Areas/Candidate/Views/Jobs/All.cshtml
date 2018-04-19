@@ -36,7 +36,7 @@
                             <h1>@(Html.AreaLink<JobsController>(job.Title, nameof(JobsController.Details), new { id = job.Id }))</h1>
                         </td>
                         <td>
-                            <img src="@job.Picture" style="width:100px; height:100px" Xalt="Job Photo">
+                            <img src="@job.Picture" class="smallJobPicture" Xalt="Job Photo">
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => job.Location)

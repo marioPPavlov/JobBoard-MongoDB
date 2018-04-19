@@ -1,34 +1,24 @@
 ﻿@model EducationListModel
-
 @{
     ViewData["Title"] = "Education";
+    ViewData["AddButton"] = Html.GetViewDataLink<EducationsController>(nameof(EducationsController.Add), new { id = ViewContext.RouteData.Values["id"] });
 }
 
-<h2>Educations</h2>
-<hr />
-<div>
-    @(Html.AreaLink<EducationsController>("Add", nameof(EducationsController.Add), nameof(EducationsController), new { id = ViewContext.RouteData.Values["id"] }))
-</div>
-
 <div class="row">
+    <div class="col-md-4"></div>
     <div class="col-md-4">
+        <h2 style="text-align:center"> Your Education information:</h2>
+        <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @{ List<EducationModel> educations = Model.Educations; }
-            @for (int i = 0; i < educations.Count; i++)
-            {
-                <div class="form-group">
-                    <label asp-for=@educations[i].Qualification class="control-label"></label>
-                    <input asp-for=@educations[i].Qualification class="form-control" />
-                    <span asp-validation-for=@educations[i].Qualification class=" text-danger"></span>
-                    @(Html.AreaLink<EducationsController>("Remove^^", nameof(EducationsController.Remove), nameof(EducationsController), new { id = ViewContext.RouteData.Values["id"] }))
-                </div>
-            }
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+
+            @await Html.PartialAsync("_Edit")
+
+            <div class="buttonCenter">
+                @await Html.PartialAsync("_AddCrudPartial")
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
-
 

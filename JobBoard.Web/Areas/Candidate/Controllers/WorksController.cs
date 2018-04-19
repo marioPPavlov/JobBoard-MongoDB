@@ -1,9 +1,7 @@
-﻿using JobBoard.Data.Models.Cvs;
-using JobBoard.Services.Candidates;
-using JobBoard.Services.Candidates.Models.Cvs;
-using Microsoft.AspNetCore.Mvc;
-using JobBoard.Web.Infrastructure.Extensions;
+﻿using JobBoard.Services.Candidates;
 using JobBoard.Services.Candidates.Models.Cvs.Lists;
+using JobBoard.Web.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JobBoard.Web.Areas.Candidate.Controllers
 {

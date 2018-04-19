@@ -1,151 +1,20 @@
 ﻿@model CvPreviewModel
 
-<h2>Details</h2>
+<div class="container" style="padding-top:20px">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="@Model.PersonalInfo.Picture" class="bigCvPicture" alt="Cv Photo">
 
-<div>
-    @(Html.AreaLink<CvsController>("Edit", nameof(CvsController.PersonalInfo), new { id = ViewContext.RouteData.Values["id"] }))
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="divTable">
+                @await Html.PartialAsync("_PersonalInfo")
+                @await Html.PartialAsync("_WorkExperience")
+                @await Html.PartialAsync("_Education")
+                @await Html.PartialAsync("_Skills")
+                @await Html.PartialAsync("_Languages")
+            </div>
+        </div>
+    </div>
 </div>
-
-<div>
-    <h4>CvPreviewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
-    <hr />
-    <dl class="dl-horizontal">
-        <dd>
-            <img src="@Model.PersonalInfo.Picture" style="width:200px; border-radius:90px" alt="Cv Photo">
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonalInfo.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PersonalInfo.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonalInfo.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PersonalInfo.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonalInfo.PhoneNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PersonalInfo.PhoneNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonalInfo.BirhtDate)
-        </dt>
-        <dd>
-            @Model.PersonalInfo.BirhtDate.ToString();
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonalInfo.Gender)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PersonalInfo.Gender)
-        </dd>
-    </dl>
-
-    <dl class="dl-horizontal">
-        @for (int i = 0; i < Model.Works.Count; i++)
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.Works[i].Position)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Works[i].Position)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Works[i].Employer)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Works[i].Employer)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Works[i].DateFrom)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Works[i].DateFrom)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Works[i].DateTo)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Works[i].DateTo)
-            </dd>
-        }
-    </dl>
-    <dl class="dl-horizontal">
-        @for (int i = 0; i < Model.Educations.Count; i++)
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.Educations[i].Qualification)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Educations[i].Qualification)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Educations[i].Organisation)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Educations[i].Organisation)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Educations[i].DateFrom)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Educations[i].DateFrom)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Educations[i].DateTo)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Educations[i].DateTo)
-            </dd>
-        }
-    </dl>
-    <dl class="dl-horizontal">
-        @for (int i = 0; i < Model.Languages.Count; i++)
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.Languages[i].Name)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Languages[i].Name)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Languages[i].Level)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Languages[i].Level)
-            </dd>
-        }
-    </dl>
-    <dl class="dl-horizontal">
-        @for (int i = 0; i < Model.Skills.Count; i++)
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.Skills[i].Name)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Skills[i].Name)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Skills[i].Level)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Skills[i].Level)
-            </dd>
-        }
-    </dl>
-</div>
-
-

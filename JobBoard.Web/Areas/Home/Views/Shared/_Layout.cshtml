@@ -8,12 +8,17 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/custom.css" />
+        <link rel="stylesheet" href="~/css/tables.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/tables.css" asp-append-version="true" />
+
     </environment>
 </head>
 <body>
@@ -46,14 +51,13 @@
     <div class="container body-content">
         @if (TempData.ContainsKey(Web.TempDataSuccessMessageKey))
         {
-            <div class="alert alert-success">
+            <div class="alert alert-success text-center">
                 @TempData[Web.TempDataSuccessMessageKey]
             </div>
         }
-
         @if (TempData.ContainsKey(Web.TempDataErrorMessageKey))
         {
-            <div class="alert alert-danger">
+            <div class="alert alert-danger text-center">
                 @TempData[Web.TempDataErrorMessageKey]
             </div>
         }

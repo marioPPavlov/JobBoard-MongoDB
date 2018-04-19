@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using static JobBoard.Web.Infrastructure.Constants.Web;
 
-
 namespace JobBoard.Web.Areas.Employer.Controllers
 {
     [Area(EmployersArea)]

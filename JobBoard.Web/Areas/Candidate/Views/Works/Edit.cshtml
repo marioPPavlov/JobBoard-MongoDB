@@ -1,61 +1,23 @@
 ﻿@model WorkListModel
-
 @{
     ViewData["Title"] = "Work";
-    ViewData["ViewDataLink"] = Html.GetViewDataLink<WorksController>(nameof(WorksController.Add), new { id = ViewContext.RouteData.Values["id"] });
-} 
-
-<h2>Working Experience</h2>
-<h2>Hello @ViewData["title"] Experience</h2>
-
-<hr />
-
-
-<div>
-    @await Html.PartialAsync("~/Areas/Candidate/Views/Shared/_AddCrudPartial.cshtml");
-</div>
-
-<div>
-
-    @Html.ViewDataLink("Hello",ViewData["ViewDataLink"],new {@class = "btn btn-danger" })
-
-</div>
+    ViewData["AddButton"] = Html.GetViewDataLink<WorksController>(nameof(WorksController.Add), new { id = ViewContext.RouteData.Values["id"] });
+}
 
 <div class="row">
+    <div class="col-md-4"></div>
     <div class="col-md-4">
+        <h2 style="text-align:center"> Your working experience:</h2>
+        <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            @{ List<WorkModel> works = Model.Works; }
-            @for (int i = 0; i < works.Count; i++)
-            {
-                <div class="form-group">
-                    <label asp-for=@works[i].Position class="control-label"></label>
-                    <input asp-for=@works[i].Position class="form-control" />
-                    <span asp-validation-for=@works[i].Position class=" text-danger"></span>
+            @Html.Partial("_Edit")
 
-                    <label asp-for=@works[i].Employer class="control-label"></label>
-                    <input asp-for=@works[i].Employer class="form-control" />
-                    <span asp-validation-for=@works[i].Employer class=" text-danger"></span>
-
-                    <label asp-for=@works[i].DateFrom class="control-label"></label>
-                    <input asp-for=@works[i].DateFrom class="form-control" />
-                    <span asp-validation-for=@works[i].DateFrom class=" text-danger"></span>
-
-                    <label asp-for=@works[i].DateTo class="control-label"></label>
-                    <input asp-for=@works[i].DateTo class="form-control" />
-                    <span asp-validation-for=@works[i].DateTo class=" text-danger"></span>
-                    <div>
-                        @(Html.AreaLink<WorksController>("Remove", nameof(WorksController.Remove), new { id = ViewContext.RouteData.Values["id"] }))
-                    </div>
-                </div>
-            }
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="buttonCenter">
+                @Html.Partial("_AddCrudPartial")
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
-
-
-

@@ -69,6 +69,5 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
         }
 
         public abstract IActionResult RedirectToActionOnSave(string id);
-
     }
 }

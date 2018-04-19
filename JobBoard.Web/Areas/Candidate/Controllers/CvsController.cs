@@ -85,7 +85,17 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
                 return this.RedirectToAction<WorksController>(nameof(WorksController.Edit), id);
             }
             return BadRequest();
-        }       
+        }
+
+        public virtual IActionResult Delete(string id)
+        {
+            if (this.cvs.CvBelongsToLoggedUser(id))
+            {
+                this.cvs.Delete(id);
+                return this.RedirectToAction(nameof(List));
+            }
+            return BadRequest();
+        }
     }
 }
 

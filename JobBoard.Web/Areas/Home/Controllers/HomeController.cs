@@ -1,12 +1,9 @@
 ﻿using JobBoard.Data.Models;
-using JobBoard.Web.Areas.Candidate.Controllers;
-using JobBoard.Web.Areas.Employer.Controllers;
 using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using static JobBoard.Web.Infrastructure.Constants.Web;
-
 
 namespace JobBoard.Web.Areas.Home.Controllers
 {
@@ -34,6 +31,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
             }
         }
 
+        [Route("/Home/About")]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

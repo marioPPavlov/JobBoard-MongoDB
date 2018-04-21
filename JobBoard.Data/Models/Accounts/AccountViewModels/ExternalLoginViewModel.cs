@@ -11,5 +11,9 @@ namespace JobBoard.Data.Models.AccountViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Account Type:")]
+        public bool IsEmployer { get; set; }
     }
 }

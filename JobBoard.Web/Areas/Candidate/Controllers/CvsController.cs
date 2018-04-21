@@ -36,6 +36,7 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
 
             try
             {
+                TempData.AddSuccessMessage("Cv successfully created");
                 var id = this.cvs.Add(model).ToString();
                 return this.RedirectToAction(nameof(PersonalInfo), new { id });
             }
@@ -92,7 +93,10 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             if (this.cvs.CvBelongsToLoggedUser(id))
             {
                 this.cvs.Delete(id);
+                TempData.AddSuccessMessage("Cv successfully deleted");
+
                 return this.RedirectToAction(nameof(List));
+
             }
             return BadRequest();
         }

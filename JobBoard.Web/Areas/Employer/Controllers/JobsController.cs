@@ -1,5 +1,6 @@
 ﻿using JobBoard.Services.Employers;
 using JobBoard.Services.Employers.Models.Jobs;
+using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -33,8 +34,9 @@ namespace JobBoard.Web.Areas.Employer.Controllers
             }
             try
             {
+                TempData.AddSuccessMessage("Job successfully created");
                 var id = this.emp.AddJob(model).ToString();
-                return this.RedirectToAction(nameof(Create));
+                return this.RedirectToAction(nameof(List));
             }
             catch(Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using JobBoard.Data.Models;
+﻿using JobBoard.Common.Extensions;
+using JobBoard.Data.Models;
 using JobBoard.Data.Models.AccountViewModels;
 using JobBoard.Services.Default;
 using JobBoard.Web.Infrastructure.Extensions;
@@ -220,7 +221,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
             if (ModelState.IsValid)
             {
 
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email.GetEmailName(), Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -236,7 +237,6 @@ namespace JobBoard.Web.Areas.Home.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
 
-
                     if(role == CandidateRole)
                     {
                         return RedirectToAction("Create", "Cvs", new { area = CandidatesArea });
@@ -245,11 +245,9 @@ namespace JobBoard.Web.Areas.Home.Controllers
                     {
                         return RedirectToAction("List", "Jobs", new { area = EmployersArea });
                     }
-
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

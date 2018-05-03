@@ -9,7 +9,6 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
 {
     [Area(CandidatesArea)]
     [Route("[area]/[controller]/[action]/{id?}")]
-
     public class JobsController : Controller
     {
         private readonly ICandidateJobService can;

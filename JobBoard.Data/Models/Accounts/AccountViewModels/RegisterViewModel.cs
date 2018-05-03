@@ -15,10 +15,6 @@ namespace JobBoard.Data.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
-        [StringLength(NameMax, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = NameMin)]
-        public string UserName { get; set; }
-
-        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

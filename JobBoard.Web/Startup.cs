@@ -98,7 +98,7 @@ namespace JobBoard.Web
             app.UseAuthentication();
             app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
  
-            app.UseCreatedRoles();
+            app.AddRolesAndJobs();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -106,9 +106,7 @@ namespace JobBoard.Web
                 routes.MapRoute(
                     "default",
                     "{controller=Home}/{action=Index}");
-            });
-
-            
+            });  
         }
     }
 }

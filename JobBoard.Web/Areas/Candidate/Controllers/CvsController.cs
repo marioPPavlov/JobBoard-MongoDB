@@ -1,5 +1,6 @@
 ﻿using JobBoard.Services.Candidates;
 using JobBoard.Services.Candidates.Models.Cvs;
+using JobBoard.Web.Areas.Home.Controllers;
 using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +25,16 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             this.cvs = cvs;
         }
 
-        public IActionResult Create() => this.View();
 
+        [AllowAnonymous]
+        public IActionResult Create()
+        {
+            if (this.cvs.GetLoggedUser() == null)
+            {
+                this.RedirectToAction<AccountController>(nameof(AccountController.Register));
+            }
+            return this.View();
+        }
         [HttpPost]
         public IActionResult Create(CvCreateModel model)
         {

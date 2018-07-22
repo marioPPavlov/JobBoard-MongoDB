@@ -1,5 +1,7 @@
 ﻿@model JobDetailsModel
 
+
+
 <img src="@Model.Picture" style="width:400px; height:300px; margin-left:350px" alt="Job Picture">
 
 <div class="row">
@@ -78,9 +80,11 @@
             {
                 <div class="text-center">
                     <p>You do not have any registered CVs, with which you can apply for this job.</p>
-                    @{
+
+                    @{ 
                         var createButton = Html.GetViewDataLink<CvsController>(nameof(CvsController.Create));
-                    }
+                     }
+
                     @Html.ViewDataLink("Create CV", createButton, new { @class = "btn btn-primary htmlbutton" })
                 </div>
             }

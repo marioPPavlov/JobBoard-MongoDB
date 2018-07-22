@@ -34,7 +34,6 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             }
             return this.View();
         }
-
         [HttpPost]
         public IActionResult Create(CvCreateModel model)
         {

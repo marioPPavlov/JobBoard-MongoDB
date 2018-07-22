@@ -1,0 +1,29 @@
+﻿@model SkillListModel
+
+@{ List<SkillModel> skills = Model.Skills; }
+
+@if (skills.Count == 0 || skills == null)
+{
+    @await Html.PartialAsync("_EmptyListCrudPartial")
+}
+else
+{
+
+    @for (int i = 0; i < skills.Count; i++)
+    {
+        <div class="form-group">
+            <label asp-for=@skills[i].Name class="control-label"></label>
+            <input asp-for=@skills[i].Name class="form-control" />
+            <span asp-validation-for=@skills[i].Name class=" text-danger"></span>
+
+            <label asp-for=@skills[i].Level class="control-label"></label>
+            <input asp-for=@skills[i].Level class="form-control" />
+            <span asp-validation-for=@skills[i].Level class=" text-danger"></span>
+
+            <div class="text-right">
+                @{ViewData["RemoveButton"] = Html.GetViewDataLink<SkillsController>(nameof(SkillsController.Remove), new { id = ViewContext.RouteData.Values["id"], number = i });}
+                @Html.Partial("_RemoveCrudPartial")
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,14 @@
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Services.deps.json
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Services.dll
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Services.pdb
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Common.dll
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Data.dll
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Common.pdb
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\bin\Debug\netstandard2.0\JobBoard.Data.pdb
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.csproj.CoreCompileInputs.cache
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.AssemblyInfoInputs.cache
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.AssemblyInfo.cs
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.csproj.CopyComplete
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.dll
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.pdb
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Services\obj\Debug\netstandard2.0\JobBoard.Services.csprojAssemblyReference.cache

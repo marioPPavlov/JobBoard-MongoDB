@@ -3,7 +3,6 @@ using JobBoard.Data;
 using JobBoard.Services.Default;
 using JobBoard.Web.Infrastructure;
 using JobBoard.Web.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,8 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace JobBoard.Web
@@ -38,11 +35,9 @@ namespace JobBoard.Web
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.ViewLocationExpanders.Add(new ViewLocationExpander());
-                options.PageViewLocationFormats.Add("/Areas/{2}/Views/Shared/Partial/{0}.cshtml");
-                options.AreaViewLocationFormats.Add("/Areas/{2}/Views/Shared/Partial/{0}.cshtml");
+                //options.PageViewLocationFormats.Add("/Areas/{2}/Views/Shared/Partial/{0}.cshtml");
+                //options.AreaViewLocationFormats.Add("/Areas/{2}/Views/Shared/Partial/{0}.cshtml");
             });
-
-
 
             services.AddScoped<JobBoardDbContext>();
 
@@ -57,7 +52,13 @@ namespace JobBoard.Web
                         options.Password.RequiredLength = 3;
                     })
                     .AddDefaultTokenProviders();
-            
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration.GetSection("Facebook:AppId").Value;
+                facebookOptions.AppSecret = Configuration.GetSection("Facebook:AppSecret").Value;
+            });
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.Events.OnRedirectToAccessDenied = context =>
@@ -71,9 +72,6 @@ namespace JobBoard.Web
             services.AddDomainServices();
             services.AddAutoMapper();
             services.AddTransient<IEmailSender, EmailSender>();
-
-
-
 
             services.AddMvc(options =>
             {
@@ -97,7 +95,7 @@ namespace JobBoard.Web
             app.UseAuthentication();
             app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
  
-            app.UseCreatedRoles();
+            app.AddRolesAndJobs();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -105,9 +103,7 @@ namespace JobBoard.Web
                 routes.MapRoute(
                     "default",
                     "{controller=Home}/{action=Index}");
-            });
-
-            
+            });  
         }
     }
 }

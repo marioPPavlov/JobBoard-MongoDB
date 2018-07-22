@@ -1,0 +1,41 @@
+﻿@model EducationListModel
+
+@{ List<EducationModel> educations = Model.Educations; }
+
+@if (educations.Count == 0 || educations == null)
+{
+    @await Html.PartialAsync("_EmptyListCrudPartial")
+}
+else
+{
+    @for (int i = 0; i < educations.Count; i++)
+    {
+    <div class="form-group">
+
+        <label asp-for=@educations[i].Subject class="control-label"></label>
+        <input asp-for=@educations[i].Subject class="form-control" />
+        <span asp-validation-for=@educations[i].Subject class=" text-danger"></span>
+
+        <label asp-for=@educations[i].Organisation class="control-label"></label>
+        <input asp-for=@educations[i].Organisation class="form-control" />
+        <span asp-validation-for=@educations[i].Organisation class=" text-danger"></span>
+
+        <label asp-for=@educations[i].Qualification class="control-label"></label>
+        <input asp-for=@educations[i].Qualification class="form-control" />
+        <span asp-validation-for=@educations[i].Qualification class=" text-danger"></span>
+
+        <label asp-for=@educations[i].DateFrom class="control-label"></label>
+        <input asp-for=@educations[i].DateFrom class="form-control" />
+        <span asp-validation-for=@educations[i].DateFrom class=" text-danger"></span>
+
+        <label asp-for=@educations[i].DateTo class="control-label"></label>
+        <input asp-for=@educations[i].DateTo class="form-control" />
+        <span asp-validation-for=@educations[i].DateTo class=" text-danger"></span>
+
+        <div class="text-right">
+            @{ViewData["RemoveButton"] = Html.GetViewDataLink<EducationsController>(nameof(EducationsController.Remove), new { id = ViewContext.RouteData.Values["id"], number = i });}
+            @Html.Partial("_RemoveCrudPartial")
+        </div>
+    </div>
+    }
+}

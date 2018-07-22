@@ -1,0 +1,29 @@
+﻿@model LanguageListModel
+
+@{ List<LanguageModel> languages = Model.Languages; }
+
+@if (languages.Count == 0 || languages == null)
+{
+    @await Html.PartialAsync("_EmptyListCrudPartial")
+}
+else
+{
+
+    @for (int i = 0; i < languages.Count; i++)
+    {
+    <div class="form-group">
+        <label asp-for=@languages[i].Name class="control-label"></label>
+        <input asp-for=@languages[i].Name class="form-control" />
+        <span asp-validation-for=@languages[i].Name class=" text-danger"></span>
+
+        <label asp-for=@languages[i].Level class="control-label"></label>
+        <input asp-for=@languages[i].Level class="form-control" />
+        <span asp-validation-for=@languages[i].Level class=" text-danger"></span>
+
+        <div class="text-right">
+            @{ViewData["RemoveButton"] = Html.GetViewDataLink<LanguagesController>(nameof(LanguagesController.Remove), new { id = ViewContext.RouteData.Values["id"], number = i });}
+            @Html.Partial("_RemoveCrudPartial")
+        </div>
+    </div>
+    }
+}

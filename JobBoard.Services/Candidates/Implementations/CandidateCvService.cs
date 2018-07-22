@@ -43,7 +43,7 @@ namespace JobBoard.Services.Candidates.Implementations
                 .Reverse();
 
             var cvList = Mapper.Map<IEnumerable<CvOverviewModel>>(cvs);
-
+  
             return cvList;
         }
 

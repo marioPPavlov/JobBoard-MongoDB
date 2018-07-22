@@ -1,4 +1,5 @@
-﻿using JobBoard.Data.Models;
+﻿using JobBoard.Common.Extensions;
+using JobBoard.Data.Models;
 using JobBoard.Data.Models.AccountViewModels;
 using JobBoard.Services.Default;
 using JobBoard.Web.Infrastructure.Extensions;
@@ -220,7 +221,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
             if (ModelState.IsValid)
             {
 
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email.GetEmailName(), Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -236,7 +237,6 @@ namespace JobBoard.Web.Areas.Home.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
 
-
                     if(role == CandidateRole)
                     {
                         return RedirectToAction("Create", "Cvs", new { area = CandidatesArea });
@@ -245,11 +245,9 @@ namespace JobBoard.Web.Areas.Home.Controllers
                     {
                         return RedirectToAction("List", "Jobs", new { area = EmployersArea });
                     }
-
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -271,6 +269,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
             return Challenge(properties, provider);
         }
 
@@ -305,6 +304,7 @@ namespace JobBoard.Web.Areas.Home.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
+
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
             }
@@ -324,12 +324,16 @@ namespace JobBoard.Web.Areas.Home.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 var user = new User { UserName = model.Email, Email = model.Email };
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        string role = (model.IsEmployer == true) ? EmployerRole : CandidateRole;
+                        await _userManager.AddToRoleAsync(user, role);
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return this.RedirectToLocal(returnUrl);

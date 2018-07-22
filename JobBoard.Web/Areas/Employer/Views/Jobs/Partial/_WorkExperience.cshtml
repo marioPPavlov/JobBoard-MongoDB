@@ -1,0 +1,31 @@
+﻿@model CvPreviewModel
+
+
+@if (Model.Works.Count != 0)
+{
+    <div class="divTableHeading">
+        <div class="divTableRow">
+            <div class="divTableHead">Work Experience</div>
+            <div class="divTableHead"></div>
+        </div>
+    </div>
+    <div class="divTableBody">
+        @for (int i = 0; i < Model.Works.Count; i++)
+        {
+            <div class="divTableRow">
+                <div class="divTableCell">Date</div><div class="divTableCell date">@Model.Works[i].DateFrom.ToShort() - @Model.Works[i].DateTo.ToShort()</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">@Html.DisplayNameFor(model => model.Works[i].Position)</div><div class="divTableCell">@Html.DisplayFor(model => model.Works[i].Position)</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">@Html.DisplayNameFor(model => model.Works[i].Employer)</div><div class="divTableCell">@Html.DisplayFor(model => model.Works[i].Employer)</div>
+            </div>
+
+            if (i != Model.Educations.Count - 1)
+            {
+                @await Html.PartialAsync("_Blank")
+            }
+        }
+    </div>
+}

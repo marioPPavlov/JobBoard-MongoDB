@@ -35,16 +35,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                @if (User.IsInRole(Web.CandidateRole))
-                {
-                  @await Html.PartialAsync("~/Areas/Candidate/Views/Shared/_NavbarPartial.cshtml");
-                }
-                else if (User.IsInRole(Web.EmployerRole))
-                {
-                   @await Html.PartialAsync("~/Areas/Employer/Views/Shared/_NavbarPartial.cshtml");
-                }
+                    @if (User.IsInRole(Web.CandidateRole))
+                    {
+                        @await Html.PartialAsync("~/Areas/Candidate/Views/Shared/_NavbarPartial.cshtml");
+                    }
+                    else if (User.IsInRole(Web.EmployerRole))
+                    {
+                        @await Html.PartialAsync("~/Areas/Employer/Views/Shared/_NavbarPartial.cshtml");
+                    }
+                    <li>@(Html.AreaLink<HomeController>("About", nameof(HomeController.About)))</li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
+
             </div>
         </div>
     </nav>
@@ -63,8 +65,8 @@
         }
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - JobBoard.Web</p>
+        <footer class="text-center">
+            <p>&copy; 2018 - JobBoard</p>
         </footer>
     </div>
 

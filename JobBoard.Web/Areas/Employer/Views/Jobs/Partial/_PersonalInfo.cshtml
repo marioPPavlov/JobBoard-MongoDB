@@ -1,0 +1,27 @@
+﻿@model CvPreviewModel
+
+<div class="divTableHeading">
+    <div class="divTableRow">
+        <div class="divTableHead">Personal Information</div>
+        <div class="divTableHead"></div>
+    </div>
+</div>
+<div class="divTableBody">
+
+    <div class="divTableRow">
+        <div class="divTableCell">@Html.DisplayNameFor(model => model.PersonalInfo.Name)</div><div class="divTableCell">@Html.DisplayFor(model => model.PersonalInfo.Name)</div>
+    </div>
+    <div class="divTableRow">
+        <div class="divTableCell">@Html.DisplayNameFor(model => model.PersonalInfo.Email)</div><div class="divTableCell">@Html.DisplayFor(model => model.PersonalInfo.Email)</div>
+    </div>
+    <div class="divTableRow">
+        <div class="divTableCell">@Html.DisplayNameFor(model => model.PersonalInfo.PhoneNumber)</div><div class="divTableCell">@Html.DisplayFor(model => model.PersonalInfo.PhoneNumber)</div>
+    </div>
+    <div class="divTableRow">
+        <div class="divTableCell">@Html.DisplayNameFor(model => model.PersonalInfo.BirhtDate)</div><div class="divTableCell">@Html.DisplayFor(model => model.PersonalInfo.BirhtDate)</div>
+    </div>
+    <div class="divTableRow">
+        <div class="divTableCell">@Html.DisplayNameFor(model => model.PersonalInfo.Gender)</div><div class="divTableCell">@Html.DisplayFor(model => model.PersonalInfo.Gender)</div>
+    </div>
+
+</div>

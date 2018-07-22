@@ -1,0 +1,36 @@
+﻿@model WorkListModel
+
+@{ List<WorkModel> works = Model.Works; }
+
+@if (works.Count == 0 || works == null)
+{
+    @await Html.PartialAsync("_EmptyListCrudPartial")
+}
+else
+{
+    @for (int i = 0; i < works.Count; i++)
+    {
+        <div class="form-group">
+            <label asp-for=@works[i].Position class="control-label"></label>
+            <input asp-for=@works[i].Position class="form-control" />
+            <span asp-validation-for=@works[i].Position class=" text-danger"></span>
+
+            <label asp-for=@works[i].Employer class="control-label"></label>
+            <input asp-for=@works[i].Employer class="form-control" />
+            <span asp-validation-for=@works[i].Employer class=" text-danger"></span>
+
+            <label asp-for=@works[i].DateFrom class="control-label"></label>
+            <input asp-for=@works[i].DateFrom class="form-control" />
+            <span asp-validation-for=@works[i].DateFrom class=" text-danger"></span>
+
+            <label asp-for=@works[i].DateTo class="control-label"></label>
+            <input asp-for=@works[i].DateTo class="form-control" />
+            <span asp-validation-for=@works[i].DateTo class=" text-danger"></span>
+
+            <div class="text-right">
+                @{ViewData["RemoveButton"] = Html.GetViewDataLink<WorksController>(nameof(WorksController.Remove), new { id = ViewContext.RouteData.Values["id"], number = i });}
+                @Html.Partial("_RemoveCrudPartial")
+            </div>
+        </div>
+    }
+}

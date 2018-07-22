@@ -1,0 +1,33 @@
+﻿@model CvPreviewModel
+
+@if (Model.Educations.Count != 0)
+{
+
+    <div class="divTableHeading">
+        <div class="divTableRow">
+            <div class="divTableHead">Education</div>
+            <div class="divTableHead"></div>
+        </div>
+    </div>
+    <div class="divTableBody">
+        @for (int i = 0; i < Model.Educations.Count; i++)
+         {
+            <div class="divTableRow">
+                <div class="divTableCell">Date</div><div class="divTableCell date">@Model.Educations[i].DateFrom.ToShort() - @Model.Educations[i].DateTo.ToShort()</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">@Html.DisplayNameFor(model => model.Educations[i].Organisation)</div><div class="divTableCell">@Html.DisplayFor(model => model.Educations[i].Organisation)</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">@Html.DisplayNameFor(model => model.Educations[i].Subject)</div><div class="divTableCell">@Html.DisplayFor(model => model.Educations[i].Subject)</div>
+            </div> <div class="divTableRow">
+                <div class="divTableCell">@Html.DisplayNameFor(model => model.Educations[i].Qualification)</div><div class="divTableCell">@Html.DisplayFor(model => model.Educations[i].Qualification)</div>
+            </div>
+
+             if (i != Model.Educations.Count - 1)
+             {
+                 @await Html.PartialAsync("_Blank")
+             }
+         }
+        </div>
+ }

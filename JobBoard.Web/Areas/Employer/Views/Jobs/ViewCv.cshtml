@@ -1,0 +1,28 @@
+﻿@model CvPreviewModel
+
+<div class="container" style="padding-top:20px">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="@Model.PersonalInfo.Picture" class="bigCvPicture" alt="Cv Photo">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="divTable">
+                @await Html.PartialAsync("_PersonalInfo")
+                @await Html.PartialAsync("_WorkExperience")
+                @await Html.PartialAsync("_Education")
+                @await Html.PartialAsync("_Skills")
+                @await Html.PartialAsync("_Languages")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <hr />
+    <label asp-for="MotivationalLetter"></label>
+
+    <div>
+        <textarea rows="8" cols="50" readonly style="border-style:double; resize:none">@Html.DisplayFor(model => model.MotivationalLetter)</textarea>
+    </div>
+</div>
+

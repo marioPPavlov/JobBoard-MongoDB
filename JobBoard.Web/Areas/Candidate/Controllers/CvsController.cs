@@ -1,5 +1,6 @@
 ﻿using JobBoard.Services.Candidates;
 using JobBoard.Services.Candidates.Models.Cvs;
+using JobBoard.Web.Areas.Home.Controllers;
 using JobBoard.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,15 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             this.cvs = cvs;
         }
 
-        public IActionResult Create() => this.View();
+        [AllowAnonymous]
+        public IActionResult Create()
+        {
+            if (this.cvs.GetLoggedUser() == null)
+            {
+                this.RedirectToAction<AccountController>(nameof(AccountController.Register));
+            }
+            return this.View();
+        }
 
         [HttpPost]
         public IActionResult Create(CvCreateModel model)
@@ -36,6 +45,7 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
 
             try
             {
+                TempData.AddSuccessMessage("Cv successfully created");
                 var id = this.cvs.Add(model).ToString();
                 return this.RedirectToAction(nameof(PersonalInfo), new { id });
             }
@@ -92,7 +102,10 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             if (this.cvs.CvBelongsToLoggedUser(id))
             {
                 this.cvs.Delete(id);
+                TempData.AddSuccessMessage("Cv successfully deleted");
+
                 return this.RedirectToAction(nameof(List));
+
             }
             return BadRequest();
         }

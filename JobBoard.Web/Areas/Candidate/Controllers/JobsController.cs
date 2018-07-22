@@ -9,7 +9,6 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
 {
     [Area(CandidatesArea)]
     [Route("[area]/[controller]/[action]/{id?}")]
-
     public class JobsController : Controller
     {
         private readonly ICandidateJobService can;
@@ -22,7 +21,8 @@ namespace JobBoard.Web.Areas.Candidate.Controllers
             this.can = can;
         }
 
-        [AllowAnonymous]        
+        [AllowAnonymous]       
+        [Route("")]
         public IActionResult All(int page = 1)
         {
             var jobPageListModel = can.GetAllJobs(page);

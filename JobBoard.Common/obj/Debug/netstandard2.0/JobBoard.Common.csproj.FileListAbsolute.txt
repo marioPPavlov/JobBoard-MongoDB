@@ -1,0 +1,9 @@
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\bin\Debug\netstandard2.0\JobBoard.Common.deps.json
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\bin\Debug\netstandard2.0\JobBoard.Common.dll
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\obj\Debug\netstandard2.0\JobBoard.Common.csproj.CoreCompileInputs.cache
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\obj\Debug\netstandard2.0\JobBoard.Common.AssemblyInfoInputs.cache
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\obj\Debug\netstandard2.0\JobBoard.Common.AssemblyInfo.cs
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\bin\Debug\netstandard2.0\JobBoard.Common.pdb
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\obj\Debug\netstandard2.0\JobBoard.Common.dll
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\obj\Debug\netstandard2.0\JobBoard.Common.pdb
+C:\VisualStudioProjects\JobBoard-MongoDB\JobBoard.Common\obj\Debug\netstandard2.0\JobBoard.Common.csprojAssemblyReference.cache

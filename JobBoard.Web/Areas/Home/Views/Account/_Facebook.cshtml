@@ -1,0 +1,18 @@
+﻿@model LoginViewModel
+@inject SignInManager<User> SignInManager
+
+@{
+    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+    if (loginProviders.Select(l => l.Name).Contains("Facebook"))
+    {
+        <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+            <div>
+                <p>
+                    Register with your
+                    <button type="submit" class="btn btn-success" name="provider" value=Facebook title="Log in using your Facebook account">Facebook</button>
+                    account.
+                </p>
+            </div>
+        </form>
+    }
+}
